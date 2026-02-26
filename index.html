@@ -1,276 +1,900 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>URBAN DROP — Drop limité</title>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PARADIS — Black Friday Voyages</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --gold: #c9a96e;
+      --gold-light: #e8d5a3;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --text: #2a2a2a;
+      --muted: #888;
+      --red: #c0392b;
+    }
 
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    <!-- Bootstrap 5 (CDN) -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
+    html { scroll-behavior: smooth; }
 
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--black);
+      color: var(--cream);
+      overflow-x: hidden;
+    }
 
-    <style>
-      .hero {
-        min-height: 70vh;
-        background: radial-gradient(1200px 500px at 10% 10%, rgba(13,110,253,.18), transparent 60%),
-                    radial-gradient(900px 400px at 90% 20%, rgba(25,135,84,.18), transparent 60%),
-                    linear-gradient(135deg, #0b0f19, #111827);
+    /* ─── BANNER ─── */
+    .bf-banner {
+      background: var(--red);
+      text-align: center;
+      padding: 10px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      position: relative;
+      z-index: 100;
+    }
+    .bf-banner span { color: #fff; }
+    .countdown-inline {
+      display: inline-flex;
+      gap: 4px;
+      margin-left: 12px;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      background: rgba(0,0,0,0.25);
+      padding: 2px 10px;
+      border-radius: 4px;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 36px;
+      left: 0; right: 0;
+      z-index: 99;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 60px;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent);
+      backdrop-filter: blur(0px);
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.96);
+      backdrop-filter: blur(12px);
+    }
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px;
+      font-weight: 300;
+      letter-spacing: 6px;
+      color: var(--gold);
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a {
+      color: rgba(255,255,255,0.75);
+      text-decoration: none;
+      font-size: 12px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: var(--gold); }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.1) 40%, rgba(0,0,0,0.6) 100%),
+        url('https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=1800&q=80') center/cover no-repeat;
+      animation: slowZoom 20s ease-in-out infinite alternate;
+    }
+    @keyframes slowZoom {
+      from { transform: scale(1); }
+      to   { transform: scale(1.06); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+      padding: 0 30px;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-size: 11px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 2px;
+      margin-bottom: 28px;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(52px, 9vw, 110px);
+      font-weight: 300;
+      line-height: 0.9;
+      color: #fff;
+      animation: fadeUp 0.9s 0.15s ease both;
+    }
+    .hero h1 em {
+      display: block;
+      font-style: italic;
+      color: var(--gold);
+    }
+    .hero-sub {
+      margin-top: 24px;
+      font-size: 16px;
+      color: rgba(255,255,255,0.8);
+      font-weight: 300;
+      letter-spacing: 1px;
+      animation: fadeUp 1s 0.3s ease both;
+    }
+    .hero-discount {
+      margin-top: 32px;
+      animation: fadeUp 1s 0.45s ease both;
+    }
+    .hero-discount .pct {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(80px, 14vw, 160px);
+      font-weight: 600;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 2px var(--gold);
+      letter-spacing: -4px;
+    }
+    .hero-discount .pct-label {
+      display: block;
+      font-size: 13px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-top: -10px;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      margin-top: 40px;
+      padding: 18px 52px;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+      animation: fadeUp 1s 0.6s ease both, pulse 2.5s 1.5s ease-in-out infinite;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.2);
+      transition: left 0.4s;
+    }
+    .cta-btn:hover::before { left: 100%; }
+    .cta-btn:hover {
+      background: #e0be84;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(201,169,110,0.4);
+    }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(201,169,110,0.5); }
+      50%       { box-shadow: 0 0 0 18px rgba(201,169,110,0); }
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center;
+      gap: 8px; color: rgba(255,255,255,0.5); font-size: 11px; letter-spacing: 3px;
+      text-transform: uppercase;
+      animation: fadeUp 1s 1s ease both;
+    }
+    .scroll-hint .line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      animation: scrollLine 1.8s ease-in-out infinite;
+    }
+    @keyframes scrollLine {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── TIMER SECTION ─── */
+    .timer-section {
+      background: var(--dark);
+      border-top: 1px solid rgba(201,169,110,0.2);
+      border-bottom: 1px solid rgba(201,169,110,0.2);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .timer-label {
+      font-size: 11px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 20px;
+    }
+    .countdown {
+      display: flex; justify-content: center; gap: 8px; align-items: center;
+      flex-wrap: wrap;
+    }
+    .countdown-block {
+      display: flex; flex-direction: column; align-items: center;
+      min-width: 80px;
+    }
+    .countdown-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 64px; font-weight: 300; line-height: 1;
+      color: #fff;
+    }
+    .countdown-unit {
+      font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+      color: var(--muted); margin-top: 4px;
+    }
+    .countdown-sep {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px; color: var(--gold); opacity: 0.6;
+      margin-bottom: 18px;
+    }
+
+    /* ─── SECTION SHARED ─── */
+    section { padding: 100px 60px; }
+    .section-tag {
+      font-size: 10px; letter-spacing: 5px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 14px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(36px, 5vw, 60px); font-weight: 300; line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .section-title em { font-style: italic; color: var(--gold); }
+    .section-intro { color: rgba(255,255,255,0.6); max-width: 560px; font-size: 15px; line-height: 1.7; }
+
+    /* ─── DESTINATIONS ─── */
+    .destinations { background: var(--black); }
+    .dest-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; gap: 20px; flex-wrap: wrap; }
+    .dest-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .dest-card {
+      position: relative;
+      border-radius: 4px;
+      overflow: hidden;
+      cursor: pointer;
+      group: true;
+      background: #1a1a1a;
+    }
+    .dest-card:first-child { grid-row: span 2; }
+    .dest-img {
+      width: 100%; height: 260px;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94);
+      filter: brightness(0.85);
+    }
+    .dest-card:first-child .dest-img { height: 100%; min-height: 544px; }
+    .dest-card:hover .dest-img { transform: scale(1.06); filter: brightness(1); }
+    .dest-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
+      display: flex; flex-direction: column; justify-content: flex-end;
+      padding: 28px;
+      transition: background 0.4s;
+    }
+    .dest-card:hover .dest-overlay { background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.15) 60%); }
+    .dest-badge {
+      position: absolute; top: 16px; right: 16px;
+      background: var(--red);
+      color: #fff; font-size: 11px; font-weight: 700;
+      letter-spacing: 1px; padding: 4px 10px; border-radius: 2px;
+    }
+    .dest-country {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 6px;
+    }
+    .dest-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 26px; font-weight: 400; color: #fff; margin-bottom: 12px;
+    }
+    .dest-pricing {
+      display: flex; align-items: baseline; gap: 10px;
+    }
+    .price-old {
+      font-size: 14px; text-decoration: line-through; color: rgba(255,255,255,0.4);
+    }
+    .price-new {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 28px; color: var(--gold); font-weight: 400;
+    }
+    .price-per { font-size: 12px; color: rgba(255,255,255,0.5); }
+    .dest-details {
+      display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap;
+    }
+    .dest-detail { font-size: 11px; color: rgba(255,255,255,0.5); display: flex; align-items: center; gap: 5px; }
+    .dest-detail svg { width: 12px; height: 12px; }
+
+    /* ─── FEATURES ─── */
+    .features {
+      background: #0f0f0f;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+      margin-top: 60px;
+    }
+    .feature-card {
+      padding: 36px 28px;
+      border: 1px solid rgba(201,169,110,0.15);
+      border-radius: 4px;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    .feature-card:hover {
+      border-color: rgba(201,169,110,0.4);
+      background: rgba(201,169,110,0.04);
+    }
+    .feature-icon {
+      font-size: 28px; margin-bottom: 18px;
+    }
+    .feature-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px; font-weight: 400; margin-bottom: 10px; color: #fff;
+    }
+    .feature-text { font-size: 13px; line-height: 1.7; color: rgba(255,255,255,0.5); }
+
+    /* ─── REVIEWS ─── */
+    .reviews { background: var(--black); }
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 56px;
+    }
+    .review-card {
+      padding: 32px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px;
+      transition: border-color 0.3s;
+    }
+    .review-card:hover { border-color: rgba(201,169,110,0.25); }
+    .review-stars { color: var(--gold); font-size: 14px; margin-bottom: 16px; }
+    .review-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 17px; font-style: italic; line-height: 1.7;
+      color: rgba(255,255,255,0.8); margin-bottom: 20px;
+    }
+    .review-author {
+      display: flex; align-items: center; gap: 12px;
+    }
+    .author-avatar {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--gold); display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif; font-size: 16px; color: var(--black); font-weight: 600;
+    }
+    .author-info {}
+    .author-name { font-size: 13px; font-weight: 500; color: #fff; }
+    .author-trip { font-size: 11px; color: var(--muted); margin-top: 2px; }
+    .reviews-summary {
+      text-align: center; margin-top: 48px;
+      padding-top: 40px;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; justify-content: center; gap: 64px; flex-wrap: wrap;
+    }
+    .summary-stat {}
+    .summary-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px; color: var(--gold); font-weight: 300;
+    }
+    .summary-desc { font-size: 12px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; }
+
+    /* ─── CTA BOTTOM ─── */
+    .cta-section {
+      position: relative;
+      padding: 120px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .cta-bg {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+        url('https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=1800&q=80') center/cover no-repeat;
+    }
+    .cta-content { position: relative; z-index: 2; }
+    .cta-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(40px, 6vw, 72px); font-weight: 300; margin-bottom: 16px;
+    }
+    .cta-section h2 em { font-style: italic; color: var(--gold); }
+    .cta-section p { color: rgba(255,255,255,0.65); max-width: 500px; margin: 0 auto 40px; font-size: 15px; line-height: 1.7; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 60px 60px 40px;
+    }
+    .footer-inner {
+      display: flex; justify-content: space-between; align-items: flex-start;
+      gap: 40px; flex-wrap: wrap; margin-bottom: 48px;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 32px; font-weight: 300; color: var(--gold);
+      letter-spacing: 6px; text-transform: uppercase;
+    }
+    .footer-tagline { font-size: 12px; color: var(--muted); margin-top: 6px; letter-spacing: 2px; }
+    .footer-col h4 {
+      font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 16px;
+    }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a { color: rgba(255,255,255,0.45); font-size: 13px; text-decoration: none; transition: color 0.3s; }
+    .footer-col a:hover { color: var(--gold); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+    }
+    .footer-bottom p { font-size: 12px; color: rgba(255,255,255,0.25); }
+
+    /* ─── MISC ─── */
+    @media (max-width: 900px) {
+      nav { padding: 16px 24px; }
+      section { padding: 72px 24px; }
+      .dest-grid { grid-template-columns: 1fr; }
+      .dest-card:first-child { grid-row: span 1; }
+      .dest-card:first-child .dest-img { min-height: 260px; }
+      .features-grid { grid-template-columns: repeat(2,1fr); }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .features-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BANNER -->
+<div class="bf-banner">
+  <span>⚫ BLACK FRIDAY — -50% jusqu'à 23h59 ce soir uniquement</span>
+  <span class="countdown-inline" id="banner-countdown">--:--:--</span>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#" class="logo">Paradis</a>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
+    <li><a href="#pourquoi">Pourquoi nous</a></li>
+    <li><a href="#avis">Avis clients</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">⚫ Black Friday · Offre exclusive</div>
+    <h1>L'île de vos <em>rêves</em></h1>
+    <p class="hero-sub">Des séjours d'exception dans les plus belles îles du monde</p>
+    <div class="hero-discount">
+      <div class="pct">−50%</div>
+      <span class="pct-label">sur une sélection de voyages · jusqu'à 23h59</span>
+    </div>
+    <a href="#destinations" class="cta-btn">Profiter de l'offre →</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Explorer</span>
+    <div class="line"></div>
+  </div>
+</section>
+
+<!-- COUNTDOWN -->
+<div class="timer-section">
+  <div class="timer-label">⏳ L'offre se termine dans</div>
+  <div class="countdown">
+    <div class="countdown-block">
+      <div class="countdown-num" id="cd-h">--</div>
+      <div class="countdown-unit">Heures</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-block">
+      <div class="countdown-num" id="cd-m">--</div>
+      <div class="countdown-unit">Minutes</div>
+    </div>
+    <div class="countdown-sep">:</div>
+    <div class="countdown-block">
+      <div class="countdown-num" id="cd-s">--</div>
+      <div class="countdown-unit">Secondes</div>
+    </div>
+  </div>
+</div>
+
+<!-- DESTINATIONS -->
+<section class="destinations" id="destinations">
+  <div class="dest-header">
+    <div>
+      <div class="section-tag">✦ Destinations</div>
+      <h2 class="section-title">Îles <em>paradisiaques</em><br>en promotion</h2>
+    </div>
+    <p class="section-intro">Chaque destination a été sélectionnée pour son authenticité, sa beauté et l'excellence de son accueil. Les prix affichés incluent le vol et l'hébergement.</p>
+  </div>
+
+  <div class="dest-grid">
+    <!-- Card 1 – grande -->
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=900&q=80" alt="Maldives" />
+      <div class="dest-overlay">
+        <div class="dest-badge">−50%</div>
+        <div class="dest-country">Océan Indien</div>
+        <div class="dest-name">Maldives</div>
+        <div class="dest-pricing">
+          <span class="price-old">2 498 €</span>
+          <span class="price-new">1 249 €</span>
+          <span class="price-per">/ pers.</span>
+        </div>
+        <div class="dest-details">
+          <div class="dest-detail">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            7 nuits
+          </div>
+          <div class="dest-detail">✈ Vol inclus</div>
+          <div class="dest-detail">🏖 All-inclusive</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1573843981267-be1999ff37cd?w=700&q=80" alt="Bali" />
+      <div class="dest-overlay">
+        <div class="dest-badge">−50%</div>
+        <div class="dest-country">Indonésie</div>
+        <div class="dest-name">Bali</div>
+        <div class="dest-pricing">
+          <span class="price-old">1 698 €</span>
+          <span class="price-new">849 €</span>
+          <span class="price-per">/ pers.</span>
+        </div>
+        <div class="dest-details">
+          <div class="dest-detail">⏱ 10 nuits</div>
+          <div class="dest-detail">✈ Vol inclus</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=700&q=80" alt="Tahiti" />
+      <div class="dest-overlay">
+        <div class="dest-badge">−50%</div>
+        <div class="dest-country">Polynésie française</div>
+        <div class="dest-name">Tahiti & Bora Bora</div>
+        <div class="dest-pricing">
+          <span class="price-old">3 196 €</span>
+          <span class="price-new">1 598 €</span>
+          <span class="price-per">/ pers.</span>
+        </div>
+        <div class="dest-details">
+          <div class="dest-detail">⏱ 12 nuits</div>
+          <div class="dest-detail">✈ Vol inclus</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=700&q=80" alt="Seychelles" />
+      <div class="dest-overlay">
+        <div class="dest-badge">−50%</div>
+        <div class="dest-country">Afrique de l'Est</div>
+        <div class="dest-name">Seychelles</div>
+        <div class="dest-pricing">
+          <span class="price-old">2 198 €</span>
+          <span class="price-new">1 099 €</span>
+          <span class="price-per">/ pers.</span>
+        </div>
+        <div class="dest-details">
+          <div class="dest-detail">⏱ 8 nuits</div>
+          <div class="dest-detail">✈ Vol inclus</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="dest-card">
+      <img class="dest-img" src="https://images.unsplash.com/photo-1559628233-100c798642d4?w=700&q=80" alt="Thaïlande" />
+      <div class="dest-overlay">
+        <div class="dest-badge">−50%</div>
+        <div class="dest-country">Asie du Sud-Est</div>
+        <div class="dest-name">Koh Samui</div>
+        <div class="dest-pricing">
+          <span class="price-old">1 398 €</span>
+          <span class="price-new">699 €</span>
+          <span class="price-per">/ pers.</span>
+        </div>
+        <div class="dest-details">
+          <div class="dest-detail">⏱ 9 nuits</div>
+          <div class="dest-detail">✈ Vol inclus</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:56px;">
+    <a href="#" class="cta-btn">Voir toutes les destinations →</a>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="pourquoi">
+  <div class="section-tag">✦ Pourquoi Paradis</div>
+  <h2 class="section-title">L'excellence à <em>chaque étape</em></h2>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">✈️</div>
+      <div class="feature-title">Vols inclus</div>
+      <p class="feature-text">Vols aller-retour depuis Paris inclus dans chaque offre. Compagnies premium sélectionnées pour votre confort.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🏖️</div>
+      <div class="feature-title">Hôtels 4 & 5 étoiles</div>
+      <p class="feature-text">Chaque hôtel est inspecté et validé par notre équipe. Aucun compromis sur la qualité de votre hébergement.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">🛡️</div>
+      <div class="feature-title">Annulation gratuite</div>
+      <p class="feature-text">Jusqu'à 30 jours avant le départ, annulez sans frais. Partez l'esprit serein, nous nous occupons du reste.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <div class="feature-title">Support 24/7</div>
+      <p class="feature-text">Notre équipe est disponible à toute heure pour vous accompagner, avant, pendant et après votre voyage.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEWS -->
+<section class="reviews" id="avis">
+  <div class="section-tag">✦ Avis clients</div>
+  <h2 class="section-title">Ce que disent <em>nos voyageurs</em></h2>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Un voyage aux Maldives organisé à la perfection. Le transfert en hydravion, le villa sur pilotis… un rêve devenu réalité. Merci Paradis !"</p>
+      <div class="review-author">
+        <div class="author-avatar">S</div>
+        <div class="author-info">
+          <div class="author-name">Sophie M.</div>
+          <div class="author-trip">Maldives · Novembre 2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Service impeccable du début à la fin. L'équipe a tout anticipé, y compris une demande en mariage que nous avions organisée avec eux en secret !"</p>
+      <div class="review-author">
+        <div class="author-avatar">T</div>
+        <div class="author-info">
+          <div class="author-name">Thomas & Léa</div>
+          <div class="author-trip">Bora Bora · Octobre 2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Le rapport qualité-prix est incomparable, surtout avec le Black Friday ! J'ai économisé près de 1 500 € sur notre séjour aux Seychelles. À refaire."</p>
+      <div class="review-author">
+        <div class="author-avatar">M</div>
+        <div class="author-info">
+          <div class="author-name">Marie-Claire D.</div>
+          <div class="author-trip">Seychelles · Janvier 2025</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Bali a dépassé toutes nos attentes. L'hôtel recommandé était une petite villa privée avec piscine. C'était magique, on reviendra c'est certain."</p>
+      <div class="review-author">
+        <div class="author-avatar">A</div>
+        <div class="author-info">
+          <div class="author-name">Antoine F.</div>
+          <div class="author-trip">Bali · Septembre 2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★☆</div>
+      <p class="review-text">"Un séjour aux Maldives exceptionnel, des plages magnifiques et un hôtel de rêve. La communication avant le départ était parfaite et rassurante."</p>
+      <div class="review-author">
+        <div class="author-avatar">C</div>
+        <div class="author-info">
+          <div class="author-name">Camille R.</div>
+          <div class="author-trip">Maldives · Août 2024</div>
+        </div>
+      </div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Agence professionnelle, réactive et de confiance. Je réserve exclusivement chez Paradis depuis 4 ans. Leurs offres Black Friday sont légendaires !"</p>
+      <div class="review-author">
+        <div class="author-avatar">J</div>
+        <div class="author-info">
+          <div class="author-name">Jean-Pierre V.</div>
+          <div class="author-trip">Client fidèle depuis 2021</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reviews-summary">
+    <div class="summary-stat">
+      <div class="summary-num">4.9</div>
+      <div class="summary-desc">Note moyenne</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-num">3 800+</div>
+      <div class="summary-desc">Voyageurs satisfaits</div>
+    </div>
+    <div class="summary-stat">
+      <div class="summary-num">98%</div>
+      <div class="summary-desc">Recommandent Paradis</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINALE -->
+<section class="cta-section" id="contact">
+  <div class="cta-bg"></div>
+  <div class="cta-content">
+    <div class="section-tag">⚫ Black Friday · Offre limitée</div>
+    <h2>Ne laissez pas <em>passer</em><br>cette opportunité</h2>
+    <p>Les places sont limitées. Réservez dès maintenant et bénéficiez de −50% sur votre prochain séjour en île paradisiaque. Offre valable uniquement jusqu'à 23h59 ce soir.</p>
+    <a href="#destinations" class="cta-btn" style="font-size:14px; padding:20px 64px;">Réserver maintenant → −50%</a>
+    <p style="margin-top: 20px; font-size:12px; color:rgba(255,255,255,0.35); letter-spacing: 1px;">Annulation gratuite · Paiement sécurisé · Support 24/7</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">Paradis</div>
+      <div class="footer-tagline">L'île de vos rêves, à portée de main</div>
+    </div>
+    <div class="footer-col">
+      <h4>Destinations</h4>
+      <ul>
+        <li><a href="#">Maldives</a></li>
+        <li><a href="#">Bali</a></li>
+        <li><a href="#">Seychelles</a></li>
+        <li><a href="#">Polynésie</a></li>
+        <li><a href="#">Thaïlande</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Informations</h4>
+      <ul>
+        <li><a href="#">À propos</a></li>
+        <li><a href="#">Conditions générales</a></li>
+        <li><a href="#">Politique de confidentialité</a></li>
+        <li><a href="#">FAQ</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="#">contact@paradis-voyages.fr</a></li>
+        <li><a href="#">+33 1 42 00 00 00</a></li>
+        <li><a href="#">Lun – Sam · 9h – 20h</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2024 Paradis Voyages. Tous droits réservés.</p>
+    <p>Licence Atout France · IATA Accredited Agency</p>
+  </div>
+</footer>
+
+<script>
+  // Nav scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 80);
+  });
+
+  // Countdown to 23:59:59 today
+  function getTargetTime() {
+    const now = new Date();
+    const target = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 23, 59, 59);
+    return target;
+  }
+
+  function pad(n) { return String(n).padStart(2, '0'); }
+
+  function updateCountdown() {
+    const now = new Date();
+    const target = getTargetTime();
+    let diff = Math.max(0, Math.floor((target - now) / 1000));
+
+    const h = Math.floor(diff / 3600); diff %= 3600;
+    const m = Math.floor(diff / 60);
+    const s = diff % 60;
+
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+    document.getElementById('banner-countdown').textContent = `${pad(h)}:${pad(m)}:${pad(s)}`;
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity = '1';
+        e.target.style.transform = 'translateY(0)';
       }
-      .badge-soft {
-        background: rgba(255,255,255,.12);
-        border: 1px solid rgba(255,255,255,.18);
-        color: #fff;
-      }
-      .glass {
-        background: rgba(255,255,255,.06);
-        border: 1px solid rgba(255,255,255,.10);
-        backdrop-filter: blur(8px);
-      }
-    </style>
-  </head>
+    });
+  }, { threshold: 0.1 });
 
-
-  <body class="bg-dark text-light">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary">
-      <div class="container">
-        <a class="navbar-brand fw-semibold" href="#">URBAN DROP</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-
-        <div id="nav" class="collapse navbar-collapse">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="#concept">Concept</a></li>
-            <li class="nav-item"><a class="nav-link" href="#collection">Collection</a></li>
-            <li class="nav-item"><a class="nav-link" href="#faq">FAQ</a></li>
-          </ul>
-          <a class="btn btn-primary ms-lg-3" href="#cta">Accéder au drop</a>
-        </div>
-      </div>
-    </nav>
-
-
-    <!-- Hero -->
-    <header class="hero d-flex align-items-center">
-      <div class="container py-5">
-        <div class="row align-items-center g-4">
-          <div class="col-lg-7">
-            <span class="badge badge-soft rounded-pill px-3 py-2 mb-3">
-              Drop limité • Ouverture à 18h00
-            </span>
-            <h1 class="display-5 fw-bold lh-1 mb-3">
-              Collection limitée <span class="text-primary">URBAN DROP</span><br />
-              -30% aujourd’hui
-            </h1>
-            <p class="lead text-secondary mb-4">
-              Une landing page prête pour une campagne à fort trafic : rapide, claire, et orientée conversion.
-              Modifie le texte, le prix, ou le CTA pour ta campagne.
-            </p>
-
-
-            <div class="d-flex flex-wrap gap-2">
-              <a class="btn btn-primary btn-lg" href="#cta">Je réserve ma pièce</a>
-              <a class="btn btn-outline-light btn-lg" href="#collection">Découvrir la collection</a>
-            </div>
-
-
-            <div class="d-flex flex-wrap gap-2 mt-4">
-              <span class="badge bg-success-subtle text-success border border-success-subtle">Stock : 1 500 pièces</span>
-              <span class="badge bg-info-subtle text-info border border-info-subtle">Livraison 48h</span>
-              <span class="badge bg-warning-subtle text-warning border border-warning-subtle">Offre limitée</span>
-            </div>
-          </div>
-
-
-          <div class="col-lg-5">
-            <div class="p-4 rounded-4 glass">
-              <h2 class="h5 fw-semibold mb-3">Mini formulaire de conversion</h2>
-              <form>
-                <div class="mb-3">
-                  <label class="form-label">Email</label>
-                  <input type="email" class="form-control" placeholder="prenom.nom@email.com" />
-                </div>
-                <div class="mb-3">
-                  <label class="form-label">Taille</label>
-                  <select class="form-select">
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
-                  </select>
-                </div>
-                <div class="d-grid">
-                  <a id="cta" class="btn btn-primary btn-lg" href="#" role="button">
-                    Recevoir le lien du drop
-                  </a>
-                </div>
-                <p class="small text-secondary mt-3 mb-0">
-                  Astuce : remplace ce bouton par ton lien Shopify / Typeform / Calendly.
-                </p>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
-
-
-    <!-- Concept -->
-    <section id="concept" class="py-5">
-      <div class="container">
-        <div class="row g-4">
-          <div class="col-lg-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark">
-              <h3 class="h5 fw-semibold">Performance</h3>
-              <p class="text-secondary mb-0">
-                Une page simple charge vite : meilleure expérience, meilleur taux de conversion.
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark">
-              <h3 class="h5 fw-semibold">Disponibilité</h3>
-              <p class="text-secondary mb-0">
-                Ta campagne reste accessible même lors d’un pic de trafic.
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="p-4 rounded-4 border border-secondary bg-dark">
-              <h3 class="h5 fw-semibold">Scalabilité</h3>
-              <p class="text-secondary mb-0">
-                Ton hébergement s’adapte à la demande : l’infra soutient le marketing.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Collection -->
-    <section id="collection" class="py-5 bg-black">
-      <div class="container">
-        <div class="d-flex align-items-end justify-content-between mb-4">
-          <div>
-            <h2 class="h3 fw-bold mb-1">La collection</h2>
-            <p class="text-secondary mb-0">3 produits exemples (modifiables en 2 minutes).</p>
-          </div>
-          <a class="btn btn-outline-light" href="#cta">Accéder au drop</a>
-        </div>
-
-
-        <div class="row g-4">
-          <div class="col-md-4">
-            <div class="card bg-dark border-secondary h-100">
-              <div class="card-body">
-                <h3 class="h5 card-title">Hoodie “Night”</h3>
-                <p class="text-secondary">Coupe oversize • Coton épais • Sérigraphie</p>
-                <p class="mb-0"><span class="fw-semibold text-primary">79€</span> <span class="text-secondary text-decoration-line-through ms-2">99€</span></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card bg-dark border-secondary h-100">
-              <div class="card-body">
-                <h3 class="h5 card-title">T-shirt “Drop”</h3>
-                <p class="text-secondary">Unisexe • 240g • Edition limitée</p>
-                <p class="mb-0"><span class="fw-semibold text-primary">39€</span> <span class="text-secondary text-decoration-line-through ms-2">49€</span></p>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="card bg-dark border-secondary h-100">
-              <div class="card-body">
-                <h3 class="h5 card-title">Casquette “Urban”</h3>
-                <p class="text-secondary">Broderie • Ajustable • Stock limité</p>
-                <p class="mb-0"><span class="fw-semibold text-primary">29€</span> <span class="text-secondary text-decoration-line-through ms-2">39€</span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-
-        <p class="text-secondary small mt-4 mb-0">
-          Pour le TP : change les noms, prix, et messages pour ta propre campagne.
-        </p>
-      </div>
-    </section>
-
-
-    <!-- FAQ -->
-    <section id="faq" class="py-5">
-      <div class="container">
-        <h2 class="h3 fw-bold mb-4">FAQ</h2>
-
-
-        <div class="accordion accordion-flush" id="faqAcc">
-          <div class="accordion-item bg-dark border border-secondary rounded-3 mb-2">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#q1">
-                Pourquoi une landing page plutôt qu’un site complet ?
-              </button>
-            </h2>
-            <div id="q1" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-              <div class="accordion-body text-secondary">
-                Une landing page est plus rapide, plus simple, et mieux optimisée pour une conversion.
-              </div>
-            </div>
-          </div>
-
-
-          <div class="accordion-item bg-dark border border-secondary rounded-3 mb-2">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#q2">
-                Est-ce que ça tient une campagne à fort trafic ?
-              </button>
-            </h2>
-            <div id="q2" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-              <div class="accordion-body text-secondary">
-                Oui : le principe Cloud (CDN, mise en cache, infrastructure scalable) permet d’absorber un pic, si la page est bien conçue.
-              </div>
-            </div>
-          </div>
-
-
-          <div class="accordion-item bg-dark border border-secondary rounded-3">
-            <h2 class="accordion-header">
-              <button class="accordion-button collapsed bg-dark text-light" type="button" data-bs-toggle="collapse" data-bs-target="#q3">
-                Que dois-je modifier pour mon TP ?
-              </button>
-            </h2>
-            <div id="q3" class="accordion-collapse collapse" data-bs-parent="#faqAcc">
-              <div class="accordion-body text-secondary">
-                Modifie le titre, l’offre, le CTA, et au moins un bloc “collection”. Ensuite commit sur GitHub : Vercel redéploie automatiquement.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <footer class="py-4 border-top border-secondary">
-      <div class="container d-flex flex-wrap justify-content-between align-items-center">
-        <p class="mb-0 text-secondary">© 2026 URBAN DROP — Demo pédagogique</p>
-        <a class="text-secondary text-decoration-none" href="#top">Haut de page</a>
-      </div>
-    </footer>
-
-
-    <!-- Bootstrap JS (optionnel, pour l'accordion/navbar) -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+  document.querySelectorAll('.dest-card, .feature-card, .review-card, .summary-stat').forEach(el => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(24px)';
+    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    observer.observe(el);
+  });
+</script>
+</body>
 </html>
