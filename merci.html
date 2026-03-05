@@ -1,35 +1,344 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<title>Merci</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Splash Kingdom — Merci !</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #0a0e1a;
+  --deep: #0d2137;
+  --ocean: #0a4f7a;
+  --azure: #1a7fb5;
+  --sky: #38b6e8;
+  --foam: #a8dff5;
+  --white: #f5f9fc;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --coral: #e85d3a;
+  --success: #2ecc71;
+  --glass-border: rgba(255,255,255,0.09);
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--ink);
+  color: var(--white);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* CURSOR */
+.cursor-dot { width:7px; height:7px; background:var(--sky); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:99999; transform:translate(-50%,-50%); }
+.cursor-ring { width:34px; height:34px; border:1.5px solid rgba(56,182,232,0.4); border-radius:50%; position:fixed; top:0; left:0; pointer-events:none; z-index:99998; transform:translate(-50%,-50%); transition:transform 0.12s ease; }
+
+/* BUBBLES */
+.bubble-layer { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.bub { position:absolute; bottom:-60px; border-radius:50%; background:radial-gradient(circle at 35% 35%,rgba(255,255,255,0.18),rgba(56,182,232,0.03)); border:1px solid rgba(255,255,255,0.1); animation:bub-rise linear infinite; }
+@keyframes bub-rise { 0%{transform:translateX(0) scale(1);opacity:0} 5%{opacity:0.8} 95%{opacity:0.35} 100%{transform:translateX(var(--d)) translateY(-110vh) scale(0.5);opacity:0} }
+
+/* NAV */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:100;
+  padding:20px 70px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(10,14,26,0.88);
+  backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--glass-border);
+}
+.nav-logo { font-family:'Bebas Neue',cursive; font-size:1.5rem; letter-spacing:4px; color:var(--white); text-decoration:none; }
+.nav-logo span { color:var(--sky); }
+
+/* PROGRESS */
+.progress-wrap { position:fixed; top:67px; left:0; right:0; z-index:99; height:2px; background:rgba(255,255,255,0.05); }
+.progress-bar { height:100%; background:linear-gradient(90deg,var(--azure),var(--sky)); width:100%; box-shadow:0 0 12px rgba(56,182,232,0.5); }
+
+/* MAIN */
+.page-wrap {
+  position:relative; z-index:10;
+  width:100%; max-width:600px;
+  padding:120px 24px 80px;
+  display:flex; flex-direction:column; align-items:center;
+  text-align:center;
+  gap:0;
+}
+
+/* SUCCESS RING */
+.success-ring {
+  width:96px; height:96px;
+  border-radius:50%;
+  border:2px solid rgba(46,204,113,0.4);
+  background:rgba(46,204,113,0.07);
+  display:flex; align-items:center; justify-content:center;
+  margin-bottom:32px;
+  animation:ring-pop 0.6s 0.1s cubic-bezier(0.34,1.56,0.64,1) both;
+}
+@keyframes ring-pop { from{transform:scale(0);opacity:0} to{transform:scale(1);opacity:1} }
+.success-check {
+  font-size:2.4rem;
+  animation:check-in 0.3s 0.5s ease both;
+}
+@keyframes check-in { from{opacity:0;transform:scale(0.4)} to{opacity:1;transform:scale(1)} }
+
+/* EYEBROW */
+.eyebrow {
+  font-size:0.68rem; letter-spacing:4px; text-transform:uppercase;
+  color:var(--success); font-weight:600; margin-bottom:14px;
+  display:flex; align-items:center; gap:8px;
+  animation:fade-up 0.6s 0.3s ease both;
+}
+.eyebrow::before, .eyebrow::after { content:''; width:24px; height:1px; background:var(--success); opacity:0.5; }
+
+/* TITLE */
+.page-title {
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.4rem,5vw,3.6rem);
+  font-weight:900; line-height:1.1;
+  color:var(--white); margin-bottom:14px;
+  animation:fade-up 0.6s 0.45s ease both;
+}
+.page-title em { font-style:italic; color:var(--sky); }
+
+/* SUBTITLE */
+.page-sub {
+  font-size:1rem; font-weight:300;
+  color:rgba(255,255,255,0.5); line-height:1.8;
+  max-width:440px; margin-bottom:44px;
+  animation:fade-up 0.6s 0.6s ease both;
+}
+
+@keyframes fade-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+/* TICKET */
+.ticket {
+  width:100%;
+  background:linear-gradient(135deg, var(--ocean) 0%, var(--azure) 100%);
+  border-radius:18px;
+  padding:32px 32px 28px;
+  margin-bottom:36px;
+  position:relative; overflow:hidden;
+  box-shadow:0 20px 60px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.07);
+  animation:fade-up 0.6s 0.75s ease both;
+}
+.ticket::before { content:''; position:absolute; top:-50px; right:-50px; width:180px; height:180px; background:rgba(255,255,255,0.06); border-radius:50%; }
+.ticket::after  { content:''; position:absolute; bottom:-60px; left:-40px; width:160px; height:160px; background:rgba(255,255,255,0.04); border-radius:50%; }
+
+/* Perforations */
+.ticket-perf {
+  display:flex; align-items:center; gap:0;
+  margin:20px -32px; position:relative;
+}
+.ticket-perf::before { content:''; flex:1; height:1px; border-top:2px dashed rgba(255,255,255,0.2); margin:0 12px; }
+.perf-circle-l { width:20px; height:20px; border-radius:50%; background:var(--ink); flex-shrink:0; margin-left:-10px; }
+.perf-circle-r { width:20px; height:20px; border-radius:50%; background:var(--ink); flex-shrink:0; margin-right:-10px; }
+
+.ticket-park { font-family:'Bebas Neue',cursive; font-size:1.15rem; letter-spacing:4px; color:rgba(255,255,255,0.55); margin-bottom:2px; }
+.ticket-park span { color:var(--foam); }
+.ticket-event { font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700; color:var(--white); margin-bottom:22px; }
+
+.ticket-rows { display:flex; flex-direction:column; gap:10px; position:relative; z-index:1; }
+.ticket-row { display:flex; justify-content:space-between; align-items:center; }
+.tr-label { font-size:0.76rem; font-weight:300; color:rgba(255,255,255,0.5); letter-spacing:0.5px; }
+.tr-val { font-size:0.88rem; font-weight:600; color:var(--white); }
+.tr-val.gold { color:var(--gold-light); font-family:'Bebas Neue',cursive; font-size:1.1rem; letter-spacing:2px; }
+
+.ticket-ref {
+  margin-top:6px;
+  text-align:center;
+  font-family:'Bebas Neue',cursive;
+  font-size:1rem; letter-spacing:5px;
+  color:rgba(255,255,255,0.35);
+  position:relative; z-index:1;
+}
+
+/* STEPS */
+.next-steps {
+  width:100%;
+  display:flex; flex-direction:column; gap:12px;
+  margin-bottom:40px;
+  animation:fade-up 0.6s 0.9s ease both;
+}
+.next-step {
+  display:flex; align-items:center; gap:16px;
+  background:rgba(255,255,255,0.04);
+  border:1px solid var(--glass-border);
+  border-radius:12px;
+  padding:18px 20px;
+  text-align:left;
+}
+.ns-icon {
+  width:40px; height:40px; flex-shrink:0;
+  border-radius:10px;
+  background:rgba(56,182,232,0.1);
+  border:1px solid rgba(56,182,232,0.2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem;
+}
+.ns-title { font-size:0.88rem; font-weight:600; color:var(--white); margin-bottom:2px; }
+.ns-desc { font-size:0.78rem; font-weight:300; color:rgba(255,255,255,0.4); line-height:1.5; }
+
+/* ACTIONS */
+.actions {
+  display:flex; gap:14px; flex-wrap:wrap; justify-content:center;
+  animation:fade-up 0.6s 1.05s ease both;
+}
+.btn-home {
+  background:var(--sky); color:var(--ink);
+  font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:700;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:15px 36px; border:none; border-radius:6px; cursor:pointer;
+  text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+  position:relative; overflow:hidden;
+  transition:transform 0.2s, box-shadow 0.2s;
+}
+.btn-home::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent); animation:sheen 3s infinite; }
+@keyframes sheen { 0%{left:-100%} 100%{left:220%} }
+.btn-home:hover { transform:translateY(-2px); box-shadow:0 10px 35px rgba(56,182,232,0.4); }
+
+.btn-modify {
+  background:transparent; color:rgba(255,255,255,0.6);
+  font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:500;
+  letter-spacing:2px; text-transform:uppercase;
+  padding:15px 32px; border:1px solid rgba(255,255,255,0.15); border-radius:6px;
+  cursor:pointer; text-decoration:none;
+  transition:border-color 0.2s, color 0.2s;
+}
+.btn-modify:hover { border-color:var(--sky); color:var(--sky); }
+
+/* SFXS */
+.sfx { position:fixed; pointer-events:none; z-index:99997; animation:sfx-a 0.65s ease forwards; }
+@keyframes sfx-a { 0%{opacity:1;transform:translate(-50%,-50%) scale(0.4)} 100%{opacity:0;transform:translate(-50%,-140%) scale(1.8)} }
+
+/* RESPONSIVE */
+@media (max-width:600px) {
+  nav { padding:16px 22px; }
+  .ticket { padding:24px 20px 20px; }
+  .ticket-perf { margin:16px -20px; }
+  .actions { flex-direction:column; width:100%; }
+  .btn-home, .btn-modify { width:100%; justify-content:center; text-align:center; }
+}
+</style>
 </head>
+<body>
 
+<div class="cursor-dot" id="cdot"></div>
+<div class="cursor-ring" id="cring"></div>
+<div class="bubble-layer" id="bl"></div>
 
-<body class="bg-dark text-light">
+<nav>
+  <a href="index.html" class="nav-logo">Splash<span>Kingdom</span></a>
+</nav>
+<div class="progress-wrap"><div class="progress-bar"></div></div>
 
+<div class="page-wrap">
 
-<div class="container py-5" style="max-width:600px">
+  <div class="success-ring"><span class="success-check">✓</span></div>
 
+  <div class="eyebrow">Réservation confirmée</div>
+  <h1 class="page-title">Merci pour votre<br><em>inscription !</em></h1>
+  <p class="page-sub">Votre place est confirmée. Vous recevrez toutes les informations nécessaires par e-mail dans les prochaines minutes.</p>
 
-<h1 class="h3">Merci pour votre inscription</h1>
+  <!-- TICKET -->
+  <div class="ticket">
+    <div class="ticket-park" style="position:relative;z-index:1;">Splash<span>Kingdom</span></div>
+    <div class="ticket-event" style="position:relative;z-index:1;">Billet d'ouverture officielle</div>
+    <div class="ticket-rows">
+      <div class="ticket-row"><span class="tr-label">Accès</span><span class="tr-val">Toutes attractions</span></div>
+      <div class="ticket-row"><span class="tr-label">Durée</span><span class="tr-val">Journée complète</span></div>
+      <div class="ticket-row"><span class="tr-label">Tarif appliqué</span><span class="tr-val gold">19 € — 50% OFF</span></div>
+    </div>
+    <div class="ticket-perf">
+      <div class="perf-circle-l"></div>
+      <div class="perf-circle-r"></div>
+    </div>
+    <div class="ticket-rows" style="position:relative;z-index:1;">
+      <div class="ticket-row"><span class="tr-label">Statut</span><span class="tr-val" style="color:#2ecc71;">● Confirmé</span></div>
+      <div class="ticket-row"><span class="tr-label">Confirmation</span><span class="tr-val">Envoyée par e-mail</span></div>
+    </div>
+    <div class="ticket-ref" id="ticketRef" style="margin-top:18px;">REF · SKW-2025-·····</div>
+  </div>
 
+  <!-- NEXT STEPS -->
+  <div class="next-steps">
+    <div class="next-step">
+      <div class="ns-icon">📧</div>
+      <div>
+        <div class="ns-title">Vérifiez votre boîte mail</div>
+        <div class="ns-desc">Un e-mail de confirmation avec votre billet en pièce jointe vous a été envoyé.</div>
+      </div>
+    </div>
+    <div class="next-step">
+      <div class="ns-icon">🎰</div>
+      <div>
+        <div class="ns-title">Tournez la roue des cadeaux</div>
+        <div class="ns-desc">Retournez sur la page d'accueil pour tenter de gagner des réductions boutique & cafétéria.</div>
+      </div>
+    </div>
+    <div class="next-step">
+      <div class="ns-icon">🌊</div>
+      <div>
+        <div class="ns-title">Préparez votre visite</div>
+        <div class="ns-desc">Découvrez toutes nos attractions et planifiez votre journée parfaite à Splash Kingdom.</div>
+      </div>
+    </div>
+  </div>
 
-<p class="text-secondary">
-Votre place est confirmée.
-Vous recevrez les informations par email.
-</p>
+  <!-- ACTIONS -->
+  <div class="actions">
+    <a href="index.html" class="btn-home">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+      Retour à l'accueil
+    </a>
+    <a href="formulaire.html" class="btn-modify">Modifier mon inscription</a>
+  </div>
 
-
-<div class="mt-4">
-<a class="btn btn-primary" href="index.html">Retour à l'accueil</a>
-<a class="btn btn-outline-light" href="formulaire.html">Modifier mon inscription</a>
 </div>
 
+<script>
+// CURSOR
+const cdot=document.getElementById('cdot'),cring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cdot.style.left=mx+'px';cdot.style.top=my+'px';});
+(function ac(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;cring.style.left=rx+'px';cring.style.top=ry+'px';requestAnimationFrame(ac);})();
 
-</div>
+// BUBBLES
+const bl=document.getElementById('bl');
+function mkB(){const b=document.createElement('div');b.className='bub';const s=Math.random()*42+7;b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}vw;animation-duration:${Math.random()*10+9}s;animation-delay:${Math.random()*6}s;--d:${(Math.random()-.5)*140}px`;bl.appendChild(b);setTimeout(()=>b.remove(),22000);}
+for(let i=0;i<14;i++)mkB();setInterval(mkB,1100);
 
+// CLICK FX
+document.addEventListener('click',e=>{
+  const s=document.createElement('div');s.className='sfx';
+  s.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;font-size:${10+Math.random()*8}px;color:rgba(56,182,232,${0.4+Math.random()*.5})`;
+  s.textContent=['·','○','◦'][Math.floor(Math.random()*3)];
+  document.body.appendChild(s);setTimeout(()=>s.remove(),650);
+});
 
+// REF
+document.getElementById('ticketRef').textContent='REF · SKW-2025-'+Math.floor(10000+Math.random()*90000);
+
+// CONFETTI on load
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    for(let i=0;i<30;i++){
+      setTimeout(()=>{
+        const s=document.createElement('div');s.className='sfx';
+        s.style.cssText=`left:${10+Math.random()*80}vw;top:${20+Math.random()*50}vh;font-size:${12+Math.random()*14}px;color:rgba(${Math.random()>0.5?'56,182,232':'201,168,76'},0.9)`;
+        s.textContent=['·','✦','○','◇','∘'][Math.floor(Math.random()*5)];
+        document.body.appendChild(s);setTimeout(()=>s.remove(),650);
+      },i*55);
+    }
+  },600);
+});
+</script>
 </body>
 </html>
