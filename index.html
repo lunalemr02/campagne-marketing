@@ -3,1355 +3,503 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Disney VIP Circle — Membres Exclusifs</title>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;600&display=swap" rel="stylesheet">
+<title>Splash Kingdom — Ouverture Officielle</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #F0D080;
-    --gold-pale: #FFF5DC;
-    --silver: #A8B8C8;
-    --silver-light: #D8E4F0;
-    --dark: #0A0A0F;
-    --deep: #0D0B1A;
-    --midnight: #120F2A;
-    --text: #F5EED8;
-    --text-dim: #9A8A6A;
-  }
+:root {
+  --ink: #0a0e1a;
+  --deep: #0d2137;
+  --ocean: #0a4f7a;
+  --azure: #1a7fb5;
+  --sky: #38b6e8;
+  --foam: #a8dff5;
+  --white: #f5f9fc;
+  --gold: #c9a84c;
+  --gold-light: #e8c96a;
+  --coral: #e85d3a;
+  --glass: rgba(255,255,255,0.07);
+  --glass-border: rgba(255,255,255,0.10);
+}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'DM Sans', sans-serif; background: var(--ink); color: var(--white); overflow-x: hidden; cursor: none; }
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+/* CURSOR */
+.cursor-dot { width: 7px; height: 7px; background: var(--sky); border-radius: 50%; position: fixed; top:0; left:0; pointer-events:none; z-index:99999; transform:translate(-50%,-50%); }
+.cursor-ring { width: 34px; height: 34px; border: 1.5px solid rgba(56,182,232,0.45); border-radius: 50%; position: fixed; top:0; left:0; pointer-events:none; z-index:99998; transform:translate(-50%,-50%); transition: transform 0.12s ease; }
 
-  body {
-    background: var(--dark);
-    color: var(--text);
-    font-family: 'Cormorant Garamond', serif;
-    overflow-x: hidden;
-    cursor: none;
-  }
+/* BUBBLES */
+.bubble-layer { position: fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden; }
+.bub { position:absolute; bottom:-60px; border-radius:50%; background:radial-gradient(circle at 35% 35%, rgba(255,255,255,0.22), rgba(56,182,232,0.04)); border:1px solid rgba(255,255,255,0.14); animation:bub-rise linear infinite; }
+@keyframes bub-rise { 0%{transform:translateX(0) scale(1);opacity:0} 5%{opacity:0.9} 95%{opacity:0.5} 100%{transform:translateX(var(--d)) translateY(-108vh) scale(0.6);opacity:0} }
 
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    width: 12px; height: 12px;
-    background: var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%,-50%);
-    transition: transform 0.1s, width 0.2s, height 0.2s;
-    mix-blend-mode: difference;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%,-50%);
-    transition: transform 0.15s ease-out, width 0.3s, height 0.3s, opacity 0.3s;
-    opacity: 0.6;
-  }
+/* NAV */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; padding:22px 70px; display:flex; align-items:center; justify-content:space-between; transition:background 0.4s, padding 0.4s, border 0.4s; }
+nav.scrolled { background:rgba(10,14,26,0.93); backdrop-filter:blur(24px); padding:14px 70px; border-bottom:1px solid var(--glass-border); }
+.nav-logo { font-family:'Bebas Neue',cursive; font-size:1.55rem; letter-spacing:4px; color:var(--white); text-decoration:none; }
+.nav-logo span { color:var(--sky); }
+.nav-links { display:flex; gap:40px; list-style:none; }
+.nav-links a { color:rgba(255,255,255,0.58); text-decoration:none; font-size:0.78rem; font-weight:500; letter-spacing:2px; text-transform:uppercase; transition:color 0.2s; }
+.nav-links a:hover { color:var(--sky); }
+.nav-cta { background:var(--sky) !important; color:var(--ink) !important; padding:9px 22px; border-radius:4px; font-weight:600 !important; }
+.nav-cta:hover { background:var(--foam) !important; }
 
-  /* Stars background */
-  .stars {
-    position: fixed; inset: 0;
-    background: radial-gradient(ellipse at 20% 50%, #1a0a3a 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, #0a1a3a 0%, transparent 50%),
-                var(--dark);
-    z-index: 0;
-  }
-  .stars::before, .stars::after {
-    content: '';
-    position: absolute; inset: 0;
-    background-image: 
-      radial-gradient(1px 1px at 10% 15%, rgba(255,255,255,0.8) 0%, transparent 100%),
-      radial-gradient(1px 1px at 25% 40%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 45% 10%, rgba(255,255,255,0.9) 0%, transparent 100%),
-      radial-gradient(1px 1px at 60% 70%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 75% 30%, rgba(255,255,255,0.7) 0%, transparent 100%),
-      radial-gradient(1px 1px at 85% 55%, rgba(255,255,255,0.6) 0%, transparent 100%),
-      radial-gradient(1px 1px at 15% 75%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 35% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 55% 50%, rgba(255,255,255,0.8) 0%, transparent 100%),
-      radial-gradient(1px 1px at 90% 80%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 5% 90%, rgba(201,168,76,0.6) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 70% 5%, rgba(201,168,76,0.5) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 40% 60%, rgba(168,184,200,0.4) 0%, transparent 100%);
-    animation: twinkle 4s ease-in-out infinite alternate;
-  }
-  .stars::after {
-    animation-delay: 2s;
-    background-image: 
-      radial-gradient(1px 1px at 20% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
-      radial-gradient(1px 1px at 50% 55%, rgba(255,255,255,0.4) 0%, transparent 100%),
-      radial-gradient(1px 1px at 80% 45%, rgba(255,255,255,0.7) 0%, transparent 100%),
-      radial-gradient(1px 1px at 30% 65%, rgba(255,255,255,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 65% 85%, rgba(255,255,255,0.3) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 92% 12%, rgba(201,168,76,0.4) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 8% 48%, rgba(201,168,76,0.6) 0%, transparent 100%);
-  }
-  @keyframes twinkle {
-    0% { opacity: 0.6; }
-    100% { opacity: 1; }
-  }
+/* HERO */
+.hero { position:relative; height:100vh; min-height:680px; display:flex; align-items:flex-end; overflow:hidden; }
+.hero-bg { position:absolute; inset:0; background-image:url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1800&q=85&auto=format'); background-size:cover; background-position:center 40%; animation:hero-zoom 22s ease-in-out infinite alternate; }
+@keyframes hero-zoom { from{transform:scale(1.06)} to{transform:scale(1.13) translateY(-1.5%)} }
+.hero-overlay { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(10,14,26,0.2) 0%, rgba(10,14,26,0.05) 25%, rgba(10,14,26,0.55) 65%, rgba(10,14,26,0.98) 100%); }
+.hero-content { position:relative; z-index:10; padding:0 80px 90px; max-width:860px; }
+.hero-eyebrow { display:inline-flex; align-items:center; gap:10px; font-size:0.72rem; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:var(--sky); margin-bottom:18px; opacity:0; animation:fadeUp 0.8s 0.4s ease forwards; }
+.hero-eyebrow::before { content:''; width:28px; height:1px; background:var(--sky); }
+.hero-title { font-family:'Bebas Neue',cursive; font-size:clamp(5rem,12vw,9.5rem); line-height:0.92; letter-spacing:2px; opacity:0; animation:fadeUp 0.8s 0.6s ease forwards; }
+.hero-title em { display:block; font-style:normal; color:transparent; -webkit-text-stroke:2px var(--sky); }
+.hero-sub { font-size:clamp(0.95rem,1.6vw,1.2rem); font-weight:300; color:rgba(255,255,255,0.68); max-width:500px; margin-top:18px; line-height:1.75; opacity:0; animation:fadeUp 0.8s 0.8s ease forwards; }
+.hero-actions { display:flex; align-items:center; gap:20px; margin-top:38px; opacity:0; animation:fadeUp 0.8s 1s ease forwards; flex-wrap:wrap; }
+.btn-primary { background:var(--sky); color:var(--ink); font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:15px 38px; border:none; border-radius:4px; cursor:pointer; position:relative; overflow:hidden; transition:transform 0.2s, box-shadow 0.2s; }
+.btn-primary::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent); animation:sheen 3s infinite 2s; }
+@keyframes sheen { 0%{left:-100%} 100%{left:220%} }
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 10px 35px rgba(56,182,232,0.45); }
+.btn-ghost { background:transparent; border:1px solid rgba(255,255,255,0.28); color:rgba(255,255,255,0.7); font-size:0.78rem; font-weight:500; letter-spacing:2px; text-transform:uppercase; padding:15px 34px; border-radius:4px; cursor:pointer; transition:border-color 0.2s, color 0.2s; }
+.btn-ghost:hover { border-color:var(--sky); color:var(--sky); }
+.hero-scroll { position:absolute; bottom:40px; right:80px; z-index:10; display:flex; flex-direction:column; align-items:center; gap:8px; color:rgba(255,255,255,0.35); font-size:0.65rem; letter-spacing:3px; text-transform:uppercase; }
+.scroll-line { width:1px; height:46px; background:linear-gradient(to bottom, rgba(255,255,255,0.4), transparent); animation:scroll-pulse 2s ease-in-out infinite; }
+@keyframes scroll-pulse { 0%,100%{opacity:0.35} 50%{opacity:1} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
 
-  /* Magic sparkles floating */
-  .sparkle {
-    position: fixed;
-    pointer-events: none;
-    z-index: 1;
-    animation: floatUp 6s ease-in infinite;
-    opacity: 0;
-  }
-  @keyframes floatUp {
-    0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-    10% { opacity: 0.8; }
-    90% { opacity: 0.2; }
-    100% { transform: translateY(-20vh) rotate(360deg); opacity: 0; }
-  }
+/* MARQUEE */
+.marquee-bar { overflow:hidden; background:rgba(26,127,181,0.1); border-top:1px solid rgba(56,182,232,0.14); border-bottom:1px solid rgba(56,182,232,0.14); padding:13px 0; position:relative; z-index:10; }
+.marquee-track { display:flex; white-space:nowrap; animation:marquee 28s linear infinite; }
+.m-item { display:inline-flex; align-items:center; gap:20px; padding:0 36px; font-size:0.7rem; letter-spacing:3px; text-transform:uppercase; font-weight:500; color:rgba(255,255,255,0.38); }
+.m-dot { width:3px; height:3px; border-radius:50%; background:var(--sky); flex-shrink:0; }
+@keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
-  /* ===================== HERO ===================== */
-  .hero {
-    position: relative;
-    z-index: 10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 60px 20px;
-  }
+/* FLASH OFFER */
+.flash-section { position:relative; z-index:10; background:var(--deep); padding:90px 80px; display:grid; grid-template-columns:1fr 1fr; gap:70px; align-items:center; border-top:1px solid var(--glass-border); }
+.flash-label { display:inline-flex; align-items:center; gap:8px; font-size:0.68rem; letter-spacing:4px; text-transform:uppercase; color:var(--coral); font-weight:600; margin-bottom:14px; }
+.flash-label::before { content:''; width:7px; height:7px; border-radius:50%; background:var(--coral); animation:blink 1.2s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.15} }
+.flash-title { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,3.8vw,3.4rem); font-weight:900; line-height:1.1; color:var(--white); margin-bottom:14px; }
+.flash-title span { color:var(--sky); font-style:italic; }
+.flash-desc { font-size:0.95rem; font-weight:300; color:rgba(255,255,255,0.55); line-height:1.85; margin-bottom:34px; max-width:420px; }
+.price-row { display:flex; align-items:baseline; gap:14px; margin-bottom:30px; flex-wrap:wrap; }
+.price-was { font-size:1.35rem; color:rgba(255,255,255,0.28); text-decoration:line-through; font-weight:300; }
+.price-now { font-family:'Bebas Neue',cursive; font-size:clamp(3.2rem,7vw,5.5rem); color:var(--gold-light); line-height:1; letter-spacing:2px; }
+.price-note { font-size:0.82rem; color:rgba(255,255,255,0.42); font-weight:300; line-height:1.5; }
 
-  .hero-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    border: 1px solid var(--gold);
-    padding: 6px 20px;
-    border-radius: 40px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 30px;
-    animation: fadeInDown 1s ease both;
-  }
-  .hero-badge::before, .hero-badge::after {
-    content: '✦';
-    font-size: 0.5rem;
-  }
+/* TIMER */
+.timer-block { background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:16px; padding:40px; text-align:center; backdrop-filter:blur(12px); }
+.timer-label-top { font-size:0.67rem; letter-spacing:4px; text-transform:uppercase; color:rgba(255,255,255,0.35); margin-bottom:26px; font-weight:500; }
+.timer-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:28px; }
+.t-unit { background:rgba(255,255,255,0.055); border:1px solid rgba(56,182,232,0.18); border-radius:10px; padding:18px 8px; }
+.t-num { font-family:'Bebas Neue',cursive; font-size:3.2rem; line-height:1; color:var(--sky); letter-spacing:1px; transition:color 0.3s; }
+.t-unit.tick .t-num { color:var(--gold-light); }
+.t-lbl { font-size:0.62rem; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.3); font-weight:500; margin-top:4px; }
+.timer-cta { width:100%; background:linear-gradient(135deg, var(--sky), var(--azure)); color:var(--white); font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; padding:17px; border:none; border-radius:8px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s; position:relative; overflow:hidden; }
+.timer-cta::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.18),transparent); animation:sheen 2.5s infinite; }
+.timer-cta:hover { transform:translateY(-2px); box-shadow:0 10px 35px rgba(26,127,181,0.5); }
+.unlimited { display:inline-flex; align-items:center; gap:6px; margin-top:14px; font-size:0.75rem; color:rgba(255,255,255,0.38); letter-spacing:1px; }
+.unlimited::before { content:'∞'; font-size:0.95rem; color:var(--gold); }
 
-  .hero-castle {
-    font-size: clamp(3.5rem, 10vw, 8rem);
-    margin-bottom: 10px;
-    animation: fadeInDown 1s 0.2s ease both;
-    filter: drop-shadow(0 0 30px rgba(201,168,76,0.4));
-  }
+/* PHOTO GRID */
+.gallery-section { padding:100px 80px; position:relative; z-index:10; }
+.section-header { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:50px; }
+.section-eyebrow { font-size:0.68rem; letter-spacing:4px; text-transform:uppercase; color:var(--sky); font-weight:600; margin-bottom:10px; }
+.section-title { font-family:'Playfair Display',serif; font-size:clamp(1.9rem,3.5vw,2.9rem); font-weight:700; line-height:1.2; color:var(--white); }
+.section-title em { font-style:italic; color:var(--sky); }
+.section-count { font-family:'Bebas Neue',cursive; font-size:4.5rem; color:rgba(255,255,255,0.05); letter-spacing:4px; line-height:1; }
+.photo-grid { display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:270px 270px; gap:10px; }
+.photo-cell { position:relative; overflow:hidden; border-radius:8px; cursor:pointer; }
+.photo-cell.tall { grid-row:span 2; }
+.photo-cell img { width:100%; height:100%; object-fit:cover; transition:transform 0.7s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s; filter:brightness(0.82) saturate(1.1); display:block; }
+.photo-cell:hover img { transform:scale(1.07); filter:brightness(0.95) saturate(1.25); }
+.photo-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(10,14,26,0.88) 0%, transparent 55%); opacity:0; transition:opacity 0.4s; display:flex; align-items:flex-end; padding:22px; }
+.photo-cell:hover .photo-overlay { opacity:1; }
+.photo-tag { font-family:'Bebas Neue',cursive; font-size:1.15rem; letter-spacing:2px; color:var(--white); }
+.photo-tag small { display:block; font-family:'DM Sans',sans-serif; font-size:0.72rem; font-weight:300; letter-spacing:1px; color:rgba(255,255,255,0.55); margin-top:2px; }
 
-  .hero-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(2rem, 6vw, 5rem);
-    font-weight: 700;
-    line-height: 1.1;
-    background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, var(--silver-light) 70%, var(--gold) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-size: 200% 200%;
-    animation: shimmer 4s ease infinite, fadeInUp 1s 0.3s ease both;
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-  @keyframes shimmer {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
+/* FEATURES */
+.features-section { padding:0 80px 100px; position:relative; z-index:10; }
+.features-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--glass-border); border:1px solid var(--glass-border); border-radius:14px; overflow:hidden; }
+.feat { background:var(--deep); padding:38px 28px; transition:background 0.3s; cursor:default; }
+.feat:hover { background:rgba(26,127,181,0.14); }
+.feat-icon { font-size:1.9rem; margin-bottom:18px; display:block; transition:transform 0.3s; }
+.feat:hover .feat-icon { transform:translateY(-4px) scale(1.1); }
+.feat-name { font-family:'Playfair Display',serif; font-size:1.1rem; font-weight:700; color:var(--white); margin-bottom:9px; }
+.feat-desc { font-size:0.83rem; font-weight:300; color:rgba(255,255,255,0.48); line-height:1.72; }
 
-  .hero-subtitle {
-    font-size: clamp(1rem, 2.5vw, 1.5rem);
-    color: var(--text-dim);
-    font-style: italic;
-    font-weight: 300;
-    letter-spacing: 0.05em;
-    animation: fadeInUp 1s 0.5s ease both;
-    margin-bottom: 50px;
-  }
+/* BANNER PHOTO */
+.banner-photo { position:relative; height:440px; overflow:hidden; z-index:10; }
+.banner-photo img { width:100%; height:100%; object-fit:cover; filter:brightness(0.5) saturate(1.15); transform:scale(1.05); animation:slow-pan 22s ease-in-out infinite alternate; }
+@keyframes slow-pan { from{transform:scale(1.05) translateX(0)} to{transform:scale(1.05) translateX(-3%)} }
+.banner-text { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; text-align:center; padding:0 40px; }
+.banner-text-title { font-family:'Bebas Neue',cursive; font-size:clamp(3rem,8vw,7rem); letter-spacing:4px; line-height:0.95; color:var(--white); text-shadow:0 4px 40px rgba(0,0,0,0.4); }
+.banner-text-title span { color:var(--sky); }
+.banner-text-sub { margin-top:14px; font-size:1rem; font-weight:300; color:rgba(255,255,255,0.7); letter-spacing:4px; text-transform:uppercase; }
 
-  .badge-row {
-    display: flex;
-    gap: 16px;
-    justify-content: center;
-    flex-wrap: wrap;
-    animation: fadeInUp 1s 0.7s ease both;
-    margin-bottom: 50px;
-  }
-  .badge {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 28px;
-    border-radius: 50px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .badge-gold {
-    background: linear-gradient(135deg, #C9A84C, #8B5E00);
-    color: #FFF8E7;
-    box-shadow: 0 0 30px rgba(201,168,76,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
-  }
-  .badge-gold:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(201,168,76,0.5), inset 0 1px 0 rgba(255,255,255,0.2); }
-  .badge-silver {
-    background: linear-gradient(135deg, #A8B8C8, #607080);
-    color: #F0F4F8;
-    box-shadow: 0 0 30px rgba(168,184,200,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
-  }
-  .badge-silver:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(168,184,200,0.5); }
+/* ROULETTE */
+.roulette-section { padding:100px 80px; position:relative; z-index:10; background:linear-gradient(180deg,var(--ink) 0%,var(--deep) 50%,var(--ink) 100%); display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+.wheel-wrap { position:relative; display:inline-flex; align-items:center; justify-content:center; }
+.wheel-pointer { position:absolute; top:-16px; left:50%; transform:translateX(-50%); width:0; height:0; border-left:11px solid transparent; border-right:11px solid transparent; border-top:22px solid var(--gold-light); z-index:20; filter:drop-shadow(0 2px 6px rgba(201,168,76,0.5)); }
+#wheelCanvas { border-radius:50%; box-shadow:0 0 0 5px rgba(255,255,255,0.07), 0 0 70px rgba(56,182,232,0.18), 0 25px 70px rgba(0,0,0,0.55); transition:transform 4s cubic-bezier(0.15,0.6,0.15,1); }
+.spin-btn { background:transparent; border:1.5px solid var(--sky); color:var(--sky); font-family:'DM Sans',sans-serif; font-size:0.8rem; font-weight:700; letter-spacing:3px; text-transform:uppercase; padding:15px 38px; border-radius:4px; cursor:pointer; margin-top:28px; transition:background 0.2s, color 0.2s, transform 0.2s; position:relative; overflow:hidden; }
+.spin-btn::after { content:''; position:absolute; top:0; left:-100%; width:60%; height:100%; background:linear-gradient(90deg,transparent,rgba(56,182,232,0.18),transparent); animation:sheen 3s infinite; }
+.spin-btn:hover { background:var(--sky); color:var(--ink); transform:translateY(-2px); }
+.spin-btn:disabled { opacity:0.3; cursor:not-allowed; transform:none; }
+.prize-card { margin-top:20px; background:rgba(255,255,255,0.04); border:1px solid var(--glass-border); border-radius:10px; padding:22px; min-height:65px; display:flex; align-items:center; color:rgba(255,255,255,0.35); font-size:0.88rem; font-weight:300; transition:all 0.4s; line-height:1.5; }
+.prize-card.active { background:rgba(201,168,76,0.1); border-color:rgba(201,168,76,0.35); color:var(--gold-light); font-size:0.95rem; font-weight:500; animation:prize-reveal 0.5s ease; }
+@keyframes prize-reveal { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.offer-pills { margin-top:18px; display:flex; flex-wrap:wrap; gap:7px; }
+.pill { background:rgba(255,255,255,0.045); border:1px solid rgba(255,255,255,0.09); color:rgba(255,255,255,0.5); font-size:0.72rem; letter-spacing:1px; padding:5px 13px; border-radius:100px; font-weight:500; }
 
-  .scroll-hint {
-    position: absolute;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    animation: fadeIn 2s 1.5s ease both;
-    color: var(--text-dim);
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-  }
-  .scroll-arrow {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(to bottom, transparent, var(--gold));
-    animation: scrollPulse 1.5s ease infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.4; }
-    50% { opacity: 1; }
-  }
+/* FISH BOT */
+.fish-bot { position:fixed; bottom:34px; right:34px; z-index:1000; }
+.fish-trigger { width:62px; height:62px; border-radius:50%; background:linear-gradient(135deg,var(--azure),var(--ocean)); border:2px solid rgba(56,182,232,0.35); box-shadow:0 8px 28px rgba(10,79,122,0.55); cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1.75rem; animation:fish-bob 4s ease-in-out infinite; transition:transform 0.2s, box-shadow 0.2s; }
+@keyframes fish-bob { 0%,100%{transform:translateY(0) rotate(-3deg)} 50%{transform:translateY(-6px) rotate(3deg)} }
+.fish-trigger:hover { transform:scale(1.1)!important; box-shadow:0 12px 38px rgba(26,127,181,0.65)!important; animation:none; }
+.notif { position:absolute; top:-3px; right:-3px; width:17px; height:17px; background:var(--coral); border-radius:50%; border:2px solid var(--ink); font-size:0.58rem; color:white; font-weight:700; display:flex; align-items:center; justify-content:center; animation:pulse-notif 2s ease-in-out infinite; }
+@keyframes pulse-notif { 0%,100%{box-shadow:0 0 0 0 rgba(232,93,58,0.4)} 50%{box-shadow:0 0 0 5px rgba(232,93,58,0)} }
+.fish-panel { position:absolute; bottom:78px; right:0; width:330px; background:rgba(13,33,55,0.97); border:1px solid rgba(56,182,232,0.18); border-radius:14px; overflow:hidden; display:none; box-shadow:0 18px 70px rgba(0,0,0,0.6); backdrop-filter:blur(24px); }
+.fish-panel.open { display:flex; flex-direction:column; animation:panel-up 0.28s ease; }
+@keyframes panel-up { from{opacity:0;transform:translateY(12px) scale(0.97)} to{opacity:1;transform:translateY(0) scale(1)} }
+.panel-header { padding:18px 18px 14px; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; align-items:center; gap:11px; }
+.panel-avatar { width:38px; height:38px; background:linear-gradient(135deg,var(--sky),var(--azure)); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.25rem; flex-shrink:0; }
+.panel-name { font-size:0.88rem; font-weight:600; color:var(--white); }
+.panel-status { font-size:0.7rem; color:#4ade80; font-weight:500; margin-top:1px; }
+.panel-close { margin-left:auto; background:none; border:none; color:rgba(255,255,255,0.28); font-size:1.15rem; cursor:pointer; transition:color 0.2s; line-height:1; }
+.panel-close:hover { color:var(--white); }
+.messages { padding:14px; overflow-y:auto; display:flex; flex-direction:column; gap:9px; max-height:220px; scrollbar-width:thin; scrollbar-color:rgba(255,255,255,0.08) transparent; }
+.msg { padding:9px 13px; border-radius:11px; font-size:0.83rem; line-height:1.6; font-weight:400; max-width:86%; }
+.msg.bot { background:rgba(56,182,232,0.09); border:1px solid rgba(56,182,232,0.14); color:rgba(255,255,255,0.82); border-radius:11px 11px 11px 3px; align-self:flex-start; }
+.msg.user { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.09); color:rgba(255,255,255,0.7); border-radius:11px 11px 3px 11px; align-self:flex-end; }
+.typing-dots { display:none; padding:0 14px 8px; }
+.typing-dots span { display:inline-block; width:5px; height:5px; background:rgba(56,182,232,0.45); border-radius:50%; margin:0 2px; animation:dot-bounce 1.2s ease-in-out infinite; }
+.typing-dots span:nth-child(2){animation-delay:.15s} .typing-dots span:nth-child(3){animation-delay:.3s}
+@keyframes dot-bounce { 0%,80%,100%{transform:translateY(0);opacity:0.4} 40%{transform:translateY(-5px);opacity:1} }
+.panel-input-row { padding:11px 14px 14px; border-top:1px solid rgba(255,255,255,0.06); display:flex; gap:9px; align-items:center; }
+.panel-input { flex:1; background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.09); border-radius:7px; padding:9px 13px; font-family:'DM Sans',sans-serif; font-size:0.83rem; color:var(--white); outline:none; transition:border-color 0.2s; }
+.panel-input::placeholder { color:rgba(255,255,255,0.22); }
+.panel-input:focus { border-color:rgba(56,182,232,0.38); }
+.panel-send { width:35px; height:35px; border-radius:7px; background:var(--azure); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:1rem; color:white; transition:background 0.2s, transform 0.2s; flex-shrink:0; }
+.panel-send:hover { background:var(--sky); transform:translateY(-1px); }
 
-  /* ===================== WHEEL SECTION ===================== */
-  .wheel-section {
-    position: relative;
-    z-index: 10;
-    padding: 80px 20px 100px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+/* FOOTER */
+footer { padding:80px 80px 40px; background:var(--ink); border-top:1px solid var(--glass-border); position:relative; z-index:10; }
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr; gap:60px; margin-bottom:56px; }
+.footer-brand { font-family:'Bebas Neue',cursive; font-size:2.4rem; letter-spacing:5px; color:var(--white); display:block; margin-bottom:14px; }
+.footer-brand span { color:var(--sky); }
+.footer-desc { font-size:0.88rem; font-weight:300; color:rgba(255,255,255,0.38); line-height:1.85; max-width:300px; }
+.footer-col h4 { font-size:0.68rem; letter-spacing:3px; text-transform:uppercase; font-weight:600; color:rgba(255,255,255,0.32); margin-bottom:18px; }
+.footer-col ul { list-style:none; }
+.footer-col li { font-size:0.88rem; font-weight:300; color:rgba(255,255,255,0.52); margin-bottom:11px; cursor:default; transition:color 0.2s; }
+.footer-col li:hover { color:var(--sky); }
+.footer-bottom { border-top:1px solid var(--glass-border); padding-top:28px; display:flex; justify-content:space-between; align-items:center; }
+.footer-copy { font-size:0.75rem; color:rgba(255,255,255,0.18); letter-spacing:1px; }
 
-  .section-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 16px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-  .section-label::before, .section-label::after {
-    content: '';
-    width: 40px;
-    height: 1px;
-    background: var(--gold);
-    opacity: 0.5;
-  }
+/* SR */
+.sr { opacity:0; transform:translateY(36px); transition:opacity 0.85s ease, transform 0.85s ease; }
+.sr.visible { opacity:1; transform:none; }
+.sr-d1{transition-delay:.15s} .sr-d2{transition-delay:.3s} .sr-d3{transition-delay:.45s}
 
-  .section-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(1.8rem, 4vw, 3.5rem);
-    text-align: center;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 10px;
-  }
+/* SPLASH FX */
+.sfx { position:fixed; pointer-events:none; z-index:99997; animation:sfx-anim 0.65s ease forwards; }
+@keyframes sfx-anim { 0%{opacity:1;transform:translate(-50%,-50%) scale(0.4)} 100%{opacity:0;transform:translate(-50%,-130%) scale(1.7)} }
 
-  .section-desc {
-    color: var(--text-dim);
-    font-size: 1.1rem;
-    font-style: italic;
-    text-align: center;
-    margin-bottom: 60px;
-    max-width: 500px;
-  }
-
-  /* Wheel container */
-  .wheel-wrap {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 40px;
-  }
-
-  .wheel-frame {
-    position: relative;
-    width: min(500px, 90vw);
-    height: min(500px, 90vw);
-  }
-
-  /* Glow ring */
-  .wheel-glow {
-    position: absolute;
-    inset: -20px;
-    border-radius: 50%;
-    background: conic-gradient(
-      rgba(201,168,76,0.15) 0deg,
-      rgba(168,184,200,0.1) 90deg,
-      rgba(201,168,76,0.2) 180deg,
-      rgba(168,184,200,0.08) 270deg,
-      rgba(201,168,76,0.15) 360deg
-    );
-    animation: rotateSlow 8s linear infinite;
-    filter: blur(8px);
-  }
-  @keyframes rotateSlow { to { transform: rotate(360deg); } }
-
-  .wheel-outer-ring {
-    position: absolute;
-    inset: -8px;
-    border-radius: 50%;
-    border: 2px solid;
-    border-image: conic-gradient(var(--gold) 0deg, var(--silver) 120deg, var(--gold) 240deg, var(--silver-light) 360deg) 1;
-    border-radius: 50%;
-    border: 2px solid var(--gold);
-    opacity: 0.6;
-  }
-
-  /* Pointer */
-  .wheel-pointer {
-    position: absolute;
-    top: -28px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 20;
-    filter: drop-shadow(0 4px 12px rgba(201,168,76,0.8));
-  }
-  .pointer-shape {
-    width: 0; height: 0;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
-    border-top: 28px solid var(--gold);
-    position: relative;
-  }
-  .pointer-shape::after {
-    content: '';
-    position: absolute;
-    top: -32px; left: -8px;
-    width: 16px; height: 16px;
-    background: var(--gold);
-    border-radius: 50%;
-    box-shadow: 0 0 10px var(--gold);
-  }
-
-  /* The SVG wheel */
-  #wheel-canvas {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    box-shadow: 0 0 60px rgba(201,168,76,0.2), 0 0 120px rgba(201,168,76,0.1);
-  }
-
-  /* Center hub */
-  .wheel-hub {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 70px; height: 70px;
-    border-radius: 50%;
-    background: radial-gradient(circle, #2A1F0A, #1A1208);
-    border: 3px solid var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    z-index: 20;
-    box-shadow: 0 0 20px rgba(201,168,76,0.5), inset 0 0 20px rgba(0,0,0,0.5);
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .wheel-hub:hover {
-    transform: translate(-50%, -50%) scale(1.1);
-    box-shadow: 0 0 40px rgba(201,168,76,0.8);
-  }
-
-  /* Spin button */
-  .spin-btn {
-    background: linear-gradient(135deg, #C9A84C 0%, #8B5E00 50%, #C9A84C 100%);
-    background-size: 200% 200%;
-    color: #FFF8E7;
-    border: none;
-    padding: 18px 60px;
-    border-radius: 50px;
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1rem;
-    letter-spacing: 0.1em;
-    cursor: pointer;
-    transition: all 0.3s;
-    box-shadow: 0 8px 30px rgba(201,168,76,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
-    position: relative;
-    overflow: hidden;
-  }
-  .spin-btn::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
-    transform: translateX(-100%);
-    transition: transform 0.5s;
-  }
-  .spin-btn:hover::before { transform: translateX(100%); }
-  .spin-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(201,168,76,0.6);
-    background-position: 100% 0;
-  }
-  .spin-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-
-  /* ===================== PRIZES ===================== */
-  .prizes-section {
-    position: relative;
-    z-index: 10;
-    padding: 80px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-
-  .prizes-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-    margin-top: 60px;
-  }
-
-  .prize-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
-    border: 1px solid rgba(201,168,76,0.2);
-    border-radius: 20px;
-    padding: 32px;
-    position: relative;
-    overflow: hidden;
-    transition: all 0.4s;
-    cursor: pointer;
-  }
-  .prize-card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at top left, rgba(201,168,76,0.1), transparent 60%);
-    opacity: 0;
-    transition: opacity 0.4s;
-  }
-  .prize-card:hover::before { opacity: 1; }
-  .prize-card:hover {
-    border-color: rgba(201,168,76,0.5);
-    transform: translateY(-6px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(201,168,76,0.1);
-  }
-
-  .prize-tag {
-    display: inline-block;
-    padding: 3px 12px;
-    border-radius: 20px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.55rem;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-    font-weight: 600;
-  }
-  .tag-gold { background: rgba(201,168,76,0.15); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); }
-  .tag-silver { background: rgba(168,184,200,0.15); color: var(--silver-light); border: 1px solid rgba(168,184,200,0.3); }
-  .tag-both { background: rgba(255,255,255,0.05); color: var(--text); border: 1px solid rgba(255,255,255,0.15); }
-
-  .prize-icon { font-size: 2.5rem; margin-bottom: 16px; display: block; }
-
-  .prize-name {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1rem;
-    color: var(--text);
-    margin-bottom: 8px;
-    line-height: 1.3;
-  }
-
-  .prize-desc {
-    font-size: 0.95rem;
-    color: var(--text-dim);
-    line-height: 1.6;
-    font-style: italic;
-  }
-
-  .prize-value {
-    margin-top: 20px;
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-  .prize-discount {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 2rem;
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-weight: 700;
-  }
-  .prize-off {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-  }
-
-  /* ===================== MODAL ===================== */
-  .modal-overlay {
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(8px);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.4s;
-    padding: 20px;
-  }
-  .modal-overlay.active { opacity: 1; pointer-events: all; }
-
-  .modal {
-    background: linear-gradient(135deg, #1A1208 0%, #120F2A 50%, #0A0A0F 100%);
-    border: 1px solid var(--gold);
-    border-radius: 24px;
-    padding: 50px;
-    max-width: 520px;
-    width: 100%;
-    text-align: center;
-    position: relative;
-    transform: scale(0.8) translateY(30px);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 30px 80px rgba(0,0,0,0.8), 0 0 60px rgba(201,168,76,0.15);
-  }
-  .modal-overlay.active .modal { transform: scale(1) translateY(0); }
-
-  .modal-stars {
-    position: absolute; inset: 0; overflow: hidden; border-radius: 24px; pointer-events: none;
-  }
-
-  .modal-icon {
-    font-size: 4rem;
-    margin-bottom: 20px;
-    display: block;
-    animation: bounceIn 0.6s 0.3s ease both;
-    filter: drop-shadow(0 0 20px rgba(201,168,76,0.5));
-  }
-  @keyframes bounceIn {
-    0% { transform: scale(0); }
-    60% { transform: scale(1.2); }
-    100% { transform: scale(1); }
-  }
-
-  .modal-congrats {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 12px;
-  }
-
-  .modal-prize-name {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(1.3rem, 4vw, 2rem);
-    background: linear-gradient(135deg, var(--gold-light), var(--gold));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 16px;
-    line-height: 1.2;
-  }
-
-  .modal-prize-desc {
-    color: var(--text-dim);
-    font-size: 1rem;
-    font-style: italic;
-    line-height: 1.6;
-    margin-bottom: 30px;
-  }
-
-  .modal-cta {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .btn-primary {
-    background: linear-gradient(135deg, #C9A84C, #8B5E00);
-    color: #FFF8E7;
-    border: none;
-    padding: 16px 40px;
-    border-radius: 50px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.75rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.3s;
-    box-shadow: 0 8px 25px rgba(201,168,76,0.4);
-  }
-  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 35px rgba(201,168,76,0.6); }
-
-  .btn-secondary {
-    background: transparent;
-    color: var(--text-dim);
-    border: 1px solid rgba(255,255,255,0.1);
-    padding: 14px 40px;
-    border-radius: 50px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
-
-  /* Countdown timer in modal */
-  .offer-timer {
-    display: flex;
-    justify-content: center;
-    gap: 16px;
-    margin-bottom: 24px;
-    padding: 16px;
-    background: rgba(255,255,255,0.03);
-    border-radius: 12px;
-    border: 1px solid rgba(201,168,76,0.15);
-  }
-  .timer-block {
-    text-align: center;
-  }
-  .timer-num {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.5rem;
-    color: var(--gold);
-    display: block;
-    line-height: 1;
-  }
-  .timer-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.5rem;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-top: 4px;
-    display: block;
-  }
-  .timer-sep {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.2rem;
-    color: var(--gold);
-    opacity: 0.4;
-    align-self: flex-start;
-    padding-top: 4px;
-    animation: blink 1s ease infinite;
-  }
-  @keyframes blink { 0%, 100% { opacity: 0.4; } 50% { opacity: 0; } }
-
-  /* ===================== CTA SECTION ===================== */
-  .cta-section {
-    position: relative;
-    z-index: 10;
-    padding: 100px 20px;
-    text-align: center;
-    max-width: 800px;
-    margin: 0 auto;
-  }
-
-  .divider {
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    opacity: 0.3;
-    margin: 0 auto 80px;
-    max-width: 600px;
-  }
-
-  .cta-title {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: clamp(1.5rem, 4vw, 3rem);
-    background: linear-gradient(135deg, var(--text), var(--gold-light));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 20px;
-    line-height: 1.2;
-  }
-
-  .cta-text {
-    color: var(--text-dim);
-    font-size: 1.1rem;
-    font-style: italic;
-    line-height: 1.7;
-    margin-bottom: 50px;
-  }
-
-  .cta-plans {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-  }
-
-  .plan-card {
-    background: linear-gradient(135deg, rgba(255,255,255,0.04), rgba(255,255,255,0.01));
-    border-radius: 20px;
-    padding: 36px 32px;
-    flex: 1;
-    min-width: 240px;
-    max-width: 300px;
-    transition: all 0.4s;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-  }
-  .plan-card.gold-plan {
-    border: 1px solid rgba(201,168,76,0.4);
-  }
-  .plan-card.gold-plan::after {
-    content: 'RECOMMANDÉ';
-    position: absolute;
-    top: 14px; right: -20px;
-    background: var(--gold);
-    color: #0A0A0F;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.5rem;
-    letter-spacing: 0.2em;
-    font-weight: 700;
-    padding: 4px 30px;
-    transform: rotate(35deg);
-  }
-  .plan-card.silver-plan { border: 1px solid rgba(168,184,200,0.3); }
-  .plan-card:hover { transform: translateY(-8px); }
-  .plan-card.gold-plan:hover { box-shadow: 0 20px 50px rgba(201,168,76,0.15); }
-
-  .plan-icon { font-size: 2.5rem; margin-bottom: 12px; }
-  .plan-name {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 1.2rem;
-    margin-bottom: 8px;
-  }
-  .plan-price {
-    font-family: 'Cinzel Decorative', serif;
-    font-size: 2.5rem;
-    margin-bottom: 4px;
-  }
-  .plan-period {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: var(--text-dim);
-    text-transform: uppercase;
-    margin-bottom: 20px;
-  }
-  .plan-features {
-    list-style: none;
-    text-align: left;
-  }
-  .plan-features li {
-    font-size: 0.85rem;
-    color: var(--text-dim);
-    padding: 6px 0;
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    line-height: 1.4;
-  }
-  .plan-features li:last-child { border-bottom: none; }
-  .plan-features li::before { content: '✦'; color: var(--gold); font-size: 0.6rem; flex-shrink: 0; margin-top: 2px; }
-  .plan-cta {
-    margin-top: 24px;
-    width: 100%;
-    padding: 14px;
-    border-radius: 50px;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.65rem;
-    letter-spacing: 0.25em;
-    text-transform: uppercase;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: none;
-  }
-  .plan-cta-gold {
-    background: linear-gradient(135deg, #C9A84C, #8B5E00);
-    color: #FFF8E7;
-    box-shadow: 0 6px 20px rgba(201,168,76,0.3);
-  }
-  .plan-cta-gold:hover { box-shadow: 0 10px 30px rgba(201,168,76,0.5); transform: translateY(-2px); }
-  .plan-cta-silver {
-    background: transparent;
-    color: var(--silver-light);
-    border: 1px solid rgba(168,184,200,0.4) !important;
-  }
-  .plan-cta-silver:hover { background: rgba(168,184,200,0.1); }
-
-  /* Footer */
-  footer {
-    position: relative; z-index: 10;
-    padding: 40px 20px;
-    text-align: center;
-    border-top: 1px solid rgba(255,255,255,0.05);
-  }
-  footer p {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    color: rgba(255,255,255,0.2);
-    text-transform: uppercase;
-  }
-
-  /* Animations */
-  @keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Confetti */
-  .confetti-piece {
-    position: fixed;
-    width: 8px; height: 8px;
-    pointer-events: none;
-    z-index: 999;
-    animation: confettiFall linear forwards;
-    border-radius: 2px;
-  }
-  @keyframes confettiFall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-  }
-
-  /* Spin animation states */
-  .spinning { animation: wheelSpin var(--spin-duration) cubic-bezier(0.1, 0, 0.2, 1) forwards; }
-  @keyframes wheelSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(var(--spin-degrees)); }
-  }
+/* RESPONSIVE */
+@media (max-width:900px) {
+  nav, nav.scrolled { padding:18px 24px; }
+  .nav-links { display:none; }
+  .hero-content { padding:0 24px 60px; }
+  .hero-scroll { display:none; }
+  .flash-section { grid-template-columns:1fr; padding:60px 24px; gap:40px; }
+  .gallery-section { padding:60px 24px; }
+  .photo-grid { grid-template-columns:1fr 1fr; grid-template-rows:200px 200px 200px; }
+  .photo-cell.tall { grid-row:span 1; }
+  .features-section { padding:0 24px 60px; }
+  .features-row { grid-template-columns:1fr 1fr; }
+  .roulette-section { grid-template-columns:1fr; padding:60px 24px; gap:40px; }
+  footer { padding:60px 24px 32px; }
+  .footer-grid { grid-template-columns:1fr; gap:36px; }
+  .footer-bottom { flex-direction:column; gap:8px; text-align:center; }
+}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursor-ring"></div>
-<div class="stars"></div>
+<div class="cursor-dot" id="cdot"></div>
+<div class="cursor-ring" id="cring"></div>
+<div class="bubble-layer" id="bl"></div>
 
-<!-- Floating sparkles -->
-<div id="sparkles-container"></div>
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Splash<span>Kingdom</span></a>
+  <ul class="nav-links">
+    <li><a href="#attractions">Attractions</a></li>
+    <li><a href="#offre">Offre</a></li>
+    <li><a href="#roue">Roue des cadeaux</a></li>
+    <li><a href="#offre" class="nav-cta">Réserver</a></li>
+  </ul>
+</nav>
 
-<!-- ===================== HERO ===================== -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">Accès Réservé aux Membres</div>
-  <div class="hero-castle">🏰</div>
-  <h1 class="hero-title">Disney VIP Circle</h1>
-  <p class="hero-subtitle">Où la magie rencontre le privilège</p>
-  
-  <div class="badge-row">
-    <div class="badge badge-gold"><a class="btn btn-primary btn-lg" href="formulaire.html">👑 Pass Gold — Privilèges Ultimes</a></div>
-    <div class="badge badge-silver">⭐ Pass Argent — Magie Exclusive</div>
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Ouverture officielle · Été 2025</div>
+    <h1 class="hero-title">Splash<em>Kingdom</em></h1>
+    <p class="hero-sub">Le parc aquatique qui redéfinit l'été. Toboggans extrêmes, piscine à vagues, espaces famille — une expérience inoubliable pour tous les âges.</p>
+    <div class="hero-actions">
+      <button class="btn-primary" onclick="document.getElementById('offre').scrollIntoView({behavior:'smooth'})">Billets d'ouverture −50%</button>
+      <button class="btn-ghost" onclick="document.getElementById('attractions').scrollIntoView({behavior:'smooth'})">Découvrir le parc</button>
+    </div>
   </div>
-
-  <div class="scroll-hint">
-    <span>Découvrir vos avantages</span>
-    <div class="scroll-arrow"></div>
-  </div>
+  <div class="hero-scroll"><div class="scroll-line"></div><span>Scroll</span></div>
 </section>
 
-<!-- ===================== WHEEL ===================== -->
-<section class="wheel-section">
-  <div class="section-label">La Roulette Enchantée</div>
-  <h2 class="section-title">Tournez pour Gagner</h2>
-  <p class="section-desc">Chaque spin révèle une offre exclusive réservée aux membres du VIP Circle</p>
-  
-  <div class="wheel-wrap">
-    <div class="wheel-frame">
-      <div class="wheel-glow"></div>
-      <div class="wheel-outer-ring"></div>
-      <div class="wheel-pointer">
-        <div class="pointer-shape"></div>
-      </div>
-      <svg id="wheel-canvas" viewBox="0 0 400 400"></svg>
-      <div class="wheel-hub" id="spin-hub" onclick="spinWheel()">✨</div>
-    </div>
-    
-    <button class="spin-btn" id="spin-btn" onclick="spinWheel()">
-      ✦ &nbsp; Tenter ma Chance &nbsp; ✦
-    </button>
-    <p style="font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.2em;color:var(--text-dim);text-align:center;">
-      1 tour gratuit par jour · Membres Gold & Argent uniquement
-    </p>
-  </div>
-</section>
+<!-- MARQUEE -->
+<div class="marquee-bar"><div class="marquee-track" id="mt"></div></div>
 
-<!-- ===================== PRIZES ===================== -->
-<section class="prizes-section">
-  <div class="section-label" style="justify-content:center;">Ce que vous pouvez gagner</div>
-  <h2 class="section-title" style="text-align:center;">Les Récompenses du Circle</h2>
-  <p class="section-desc" style="margin:10px auto 0;font-size:0.95rem;">Des expériences uniques, des rencontres inoubliables, des séjours de rêve</p>
-  
-  <div class="prizes-grid">
-    <div class="prize-card">
-      <span class="prize-tag tag-gold">Gold Exclusif</span>
-      <span class="prize-icon">🎭</span>
-      <h3 class="prize-name">Meet & Greet avec le Cast</h3>
-      <p class="prize-desc">Rencontrez en privé les acteurs et personnages de vos films préférés dans un cadre féerique.</p>
-      <div class="prize-value">
-        <span class="prize-discount">-60%</span>
-        <span class="prize-off">sur l'expérience</span>
-      </div>
+<!-- FLASH OFFER -->
+<section class="flash-section" id="offre">
+  <div class="sr">
+    <div class="flash-label">Offre de lancement · 24h uniquement</div>
+    <h2 class="flash-title">Vivez l'ouverture<br>à <span>prix historique</span></h2>
+    <p class="flash-desc">Pour célébrer l'ouverture de Splash Kingdom, profitez de billets à −50% pendant 24 heures seulement. Places illimitées à ce tarif exceptionnel de lancement.</p>
+    <div class="price-row">
+      <span class="price-was">38 €</span>
+      <span class="price-now">19 €</span>
+      <span class="price-note">par personne<br>tous âges</span>
     </div>
-    <div class="prize-card">
-      <span class="prize-tag tag-both">Gold & Argent</span>
-      <span class="prize-icon">🏨</span>
-      <h3 class="prize-name">Séjour Hôtel Disneyland</h3>
-      <p class="prize-desc">Une nuit ou plus dans un hôtel enchanteur au cœur du parc, avec petit-déjeuner magique inclus.</p>
-      <div class="prize-value">
-        <span class="prize-discount">-45%</span>
-        <span class="prize-off">sur votre séjour</span>
+    <button class="btn-primary" onclick="buyTicket(this)">Réserver mon billet</button>
+  </div>
+  <div class="sr sr-d1">
+    <div class="timer-block">
+      <div class="timer-label-top">L'offre expire dans</div>
+      <div class="timer-grid">
+        <div class="t-unit" id="tuh"><div class="t-num" id="th">23</div><div class="t-lbl">Heures</div></div>
+        <div class="t-unit" id="tum"><div class="t-num" id="tm">59</div><div class="t-lbl">Minutes</div></div>
+        <div class="t-unit" id="tus"><div class="t-num" id="ts">59</div><div class="t-lbl">Secondes</div></div>
       </div>
-    </div>
-    <div class="prize-card">
-      <span class="prize-tag tag-gold">Gold Exclusif</span>
-      <span class="prize-icon">🌙</span>
-      <h3 class="prize-name">Soirée Privée VIP</h3>
-      <p class="prize-desc">Accès exclusif à une soirée fermée au public avec accès illimité aux attractions et dîner gastronomique.</p>
-      <div class="prize-value">
-        <span class="prize-discount">-70%</span>
-        <span class="prize-off">sur la soirée</span>
-      </div>
-    </div>
-    <div class="prize-card">
-      <span class="prize-tag tag-both">Gold & Argent</span>
-      <span class="prize-icon">🎠</span>
-      <h3 class="prize-name">Pass Fast-Track Illimité</h3>
-      <p class="prize-desc">Sautez toutes les files d'attente pendant 1 journée complète avec votre famille ou vos amis.</p>
-      <div class="prize-value">
-        <span class="prize-discount">-50%</span>
-        <span class="prize-off">sur le pass</span>
-      </div>
-    </div>
-    <div class="prize-card">
-      <span class="prize-tag tag-silver">Argent & +</span>
-      <span class="prize-icon">🍽️</span>
-      <h3 class="prize-name">Dîner Gastronomique Disney</h3>
-      <p class="prize-desc">Une table d'exception dans le restaurant signature du château, avec animations sur mesure.</p>
-      <div class="prize-value">
-        <span class="prize-discount">-35%</span>
-        <span class="prize-off">sur le repas</span>
-      </div>
-    </div>
-    <div class="prize-card">
-      <span class="prize-tag tag-gold">Gold Exclusif</span>
-      <span class="prize-icon">🎬</span>
-      <h3 class="prize-name">Avant-Première Exclusive</h3>
-      <p class="prize-desc">Découvrez les prochaines sorties Disney en avant-première mondiale lors d'une soirée cinéma privée.</p>
-      <div class="prize-value">
-        <span class="prize-discount">Gratuit</span>
-        <span class="prize-off">pour 2 personnes</span>
-      </div>
+      <button class="timer-cta" onclick="buyTicket(this)">Saisir l'offre d'ouverture</button>
+      <div class="unlimited">Places illimitées disponibles</div>
     </div>
   </div>
 </section>
 
-<!-- ===================== CTA ===================== -->
-<div class="divider" style="position:relative;z-index:10;margin:0 auto;"></div>
-<section class="cta-section">
-  <div class="section-label" style="justify-content:center;">Rejoignez le Cercle</div>
-  <h2 class="cta-title">Élevez votre Expérience Disney</h2>
-  <p class="cta-text">
-    Le VIP Circle n'est pas une simple carte de fidélité — c'est votre passeport 
-    vers un monde où la magie n'a pas de limite. Chaque visite devient une aventure 
-    unique, chaque moment devient inoubliable.
-  </p>
-  
-  <div class="cta-plans">
-    <div class="plan-card silver-plan">
-      <div class="plan-icon">⭐</div>
-      <div class="plan-name" style="color:var(--silver-light);">Pass Argent</div>
-      <div class="plan-price" style="color:var(--silver-light);">29€</div>
-      <div class="plan-period">par mois</div>
-      <ul class="plan-features">
-        <li>1 spin par jour sur la roulette</li>
-        <li>Réductions jusqu'à -50%</li>
-        <li>Accès soirées exclusives</li>
-        <li>Fast-Track prioritaire</li>
-        <li>Newsletter offres privées</li>
-      </ul>
-      <button class="plan-cta plan-cta-silver">Choisir Argent</button>
+<!-- GALLERY -->
+<section class="gallery-section" id="attractions">
+  <div class="section-header sr">
+    <div>
+      <div class="section-eyebrow">Nos espaces</div>
+      <h2 class="section-title">Le parc en <em>images</em></h2>
     </div>
-    <div class="plan-card gold-plan">
-      <div class="plan-icon">👑</div>
-      <div class="plan-name" style="color:var(--gold);">Pass Gold</div>
-      <div class="plan-price" style="color:var(--gold);">59€</div>
-      <div class="plan-period">par mois</div>
-      <ul class="plan-features">
-        <li>3 spins par jour sur la roulette</li>
-        <li>Réductions jusqu'à -70%</li>
-        <li>Meet & Greet Cast exclusif</li>
-        <li>Avant-premières mondiales</li>
-        <li>Conciergerie 24/7 dédiée</li>
-        <li>Séjours hôtel prioritaires</li>
-      </ul>
-      <button class="plan-cta plan-cta-gold" onclick="openUpgradeModal()">Devenir Gold ✦</button>
+    <div class="section-count">06</div>
+  </div>
+  <div class="photo-grid sr sr-d1">
+    <div class="photo-cell tall">
+      <img src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=800&q=82&auto=format&fit=crop" alt="Piscine principale" loading="lazy">
+      <div class="photo-overlay"><div class="photo-tag">Piscine Principale<small>Bassin olympique · Zone détente</small></div></div>
+    </div>
+    <div class="photo-cell">
+      <img src="https://images.unsplash.com/photo-1620735692151-26a7e0748429?w=600&q=82&auto=format&fit=crop" alt="Toboggan" loading="lazy">
+      <div class="photo-overlay"><div class="photo-tag">Aqua Extreme<small>80m · 60 km/h</small></div></div>
+    </div>
+    <div class="photo-cell">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=600&q=82&auto=format&fit=crop" alt="Piscine à vagues" loading="lazy">
+      <div class="photo-overlay"><div class="photo-tag">Piscine à Vagues<small>Vagues jusqu'à 1,5m</small></div></div>
+    </div>
+    <div class="photo-cell">
+      <img src="https://images.unsplash.com/photo-1519046904884-53103b34b206?w=600&q=82&auto=format&fit=crop" alt="Plage" loading="lazy">
+      <div class="photo-overlay"><div class="photo-tag">Plage & Détente<small>Sable fin · Transats · Bar</small></div></div>
+    </div>
+    <div class="photo-cell">
+      <img src="https://images.unsplash.com/photo-1551927336-09d52efd1f76?w=600&q=82&auto=format&fit=crop" alt="Espace famille" loading="lazy">
+      <div class="photo-overlay"><div class="photo-tag">Espace Famille<small>Pour tous les âges</small></div></div>
     </div>
   </div>
-  
-  <p style="font-family:'Montserrat',sans-serif;font-size:0.6rem;letter-spacing:0.15em;color:rgba(255,255,255,0.2);text-align:center;">
-    Sans engagement · Annulation à tout moment · Valable sur tous les parcs Disney d'Europe
-  </p>
 </section>
 
-<footer>
-  <p>© 2025 Disney VIP Circle — Projet académique · Tous droits réservés</p>
-</footer>
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="features-row sr">
+    <div class="feat"><span class="feat-icon">🌊</span><div class="feat-name">Piscine à vagues</div><div class="feat-desc">Vagues artificielles jusqu'à 1,5m — sensations de surf authentiques.</div></div>
+    <div class="feat"><span class="feat-icon">🎢</span><div class="feat-name">8 toboggans</div><div class="feat-desc">Du slide familial à l'Aqua Extreme, pour chaque niveau de frisson.</div></div>
+    <div class="feat"><span class="feat-icon">🍽️</span><div class="feat-name">Restauration</div><div class="feat-desc">Cafétéria, bar à smoothies et snacks à proximité de chaque bassin.</div></div>
+    <div class="feat"><span class="feat-icon">🛍️</span><div class="feat-name">Boutique</div><div class="feat-desc">Équipements et collections exclusives Splash Kingdom.</div></div>
+  </div>
+</section>
 
-<!-- ===================== MODAL ===================== -->
-<div class="modal-overlay" id="modal-overlay">
-  <div class="modal">
-    <div class="modal-stars" id="modal-stars"></div>
-    <span class="modal-icon" id="modal-icon">🎉</span>
-    <div class="modal-congrats">✦ Félicitations ! ✦</div>
-    <h3 class="modal-prize-name" id="modal-prize-name">Soirée VIP Privée</h3>
-    <p class="modal-prize-desc" id="modal-prize-desc">Vous avez gagné un accès exclusif à une soirée privée avec -70% de réduction.</p>
-    
-    <div class="offer-timer">
-      <div class="timer-block">
-        <span class="timer-num" id="timer-h">23</span>
-        <span class="timer-label">Heures</span>
-      </div>
-      <span class="timer-sep">:</span>
-      <div class="timer-block">
-        <span class="timer-num" id="timer-m">59</span>
-        <span class="timer-label">Minutes</span>
-      </div>
-      <span class="timer-sep">:</span>
-      <div class="timer-block">
-        <span class="timer-num" id="timer-s">00</span>
-        <span class="timer-label">Secondes</span>
-      </div>
-    </div>
-    
-    <div class="modal-cta">
-      <button class="btn-primary" onclick="claimPrize()">🎟️ Réclamer mon Offre Maintenant</button>
-      <button class="btn-secondary" onclick="closeModal()">Peut-être plus tard</button>
-    </div>
+<!-- BANNER -->
+<div class="banner-photo">
+  <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1800&q=82&auto=format&fit=crop" alt="Été" loading="lazy">
+  <div class="banner-text">
+    <div class="banner-text-title">L'Été Commence<br><span>Ici</span></div>
+    <div class="banner-text-sub">Ouverture · Été 2025</div>
   </div>
 </div>
 
-<!-- Upgrade modal -->
-<div class="modal-overlay" id="upgrade-modal">
-  <div class="modal">
-    <span class="modal-icon">👑</span>
-    <div class="modal-congrats">✦ Accès VIP Gold ✦</div>
-    <h3 class="modal-prize-name">Rejoignez l'Élite Disney</h3>
-    <p class="modal-prize-desc">Offre de lancement : les 3 premiers mois à seulement 29€/mois. Accès immédiat à tous les privilèges Gold.</p>
-    <div class="modal-cta">
-      <button class="btn-primary">✨ Activer mon Pass Gold</button>
-      <button class="btn-secondary" onclick="document.getElementById('upgrade-modal').classList.remove('active')">Fermer</button>
+<!-- ROULETTE -->
+<section class="roulette-section" id="roue">
+  <div class="sr" style="display:flex;justify-content:center;">
+    <div class="wheel-wrap">
+      <div class="wheel-pointer"></div>
+      <canvas id="wheelCanvas" width="300" height="300"></canvas>
     </div>
   </div>
+  <div class="sr sr-d1">
+    <div class="section-eyebrow">Bonus exclusif</div>
+    <h2 class="section-title" style="font-size:clamp(1.9rem,3.2vw,2.7rem)">La roue des<br><em>réductions</em></h2>
+    <p style="font-size:0.92rem;font-weight:300;color:rgba(255,255,255,0.52);line-height:1.85;margin-top:14px;max-width:380px;">Chaque visiteur tente sa chance une fois. Boutique, cafétéria, entrées offertes — les récompenses sont réelles et utilisables le jour même.</p>
+    <div class="offer-pills">
+      <span class="pill">−10% Boutique</span><span class="pill">−20% Cafétéria</span>
+      <span class="pill">Boisson offerte</span><span class="pill">−30% Cafétéria</span>
+      <span class="pill">Glace offerte</span><span class="pill">Bon cadeau</span>
+      <span class="pill">−15% Boutique</span><span class="pill">Entrée 2+1</span>
+    </div>
+    <button class="spin-btn" id="spinBtn" onclick="spinWheel()">Faire tourner la roue</button>
+    <div class="prize-card" id="prizeCard">Votre récompense apparaîtra ici</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div>
+      <span class="footer-brand">Splash<span>Kingdom</span></span>
+      <p class="footer-desc">Le parc aquatique qui redéfinit l'été. Conçu pour les ados, pensé pour toute la famille. Une expérience inoubliable vous attend.</p>
+    </div>
+    <div class="footer-col"><h4>Le Parc</h4><ul><li>Attractions</li><li>Infos pratiques</li><li>Tarifs</li><li>Groupes & scolaires</li></ul></div>
+    <div class="footer-col"><h4>Services</h4><ul><li>Boutique</li><li>Restauration</li><li>Événements privés</li><li>Contact</li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span class="footer-copy">© 2025 Splash Kingdom — Site fictif de présentation</span>
+    <span class="footer-copy">Projet de lancement · Tous droits réservés</span>
+  </div>
+</footer>
+
+<!-- FISH BOT -->
+<div class="fish-bot">
+  <div class="fish-panel" id="fishPanel">
+    <div class="panel-header">
+      <div class="panel-avatar">🐠</div>
+      <div><div class="panel-name">Nemo · Guide Splash Kingdom</div><div class="panel-status">● En ligne</div></div>
+      <button class="panel-close" onclick="toggleBot()">✕</button>
+    </div>
+    <div class="messages" id="msgs">
+      <div class="msg bot">Bonjour ! Je suis Nemo, votre assistant Splash Kingdom. Posez-moi vos questions sur le parc, les tarifs ou les attractions.</div>
+    </div>
+    <div class="typing-dots" id="td"><span></span><span></span><span></span></div>
+    <div class="panel-input-row">
+      <input class="panel-input" id="ci" placeholder="Votre question…" onkeydown="if(event.key==='Enter')send()">
+      <button class="panel-send" onclick="send()">↑</button>
+    </div>
+  </div>
+  <div class="fish-trigger" onclick="toggleBot()">🐠<div class="notif" id="notif">1</div></div>
 </div>
 
 <script>
-// ===================== CURSOR =====================
-const cursor = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-document.addEventListener('mousemove', e => {
-  cursor.style.left = e.clientX + 'px';
-  cursor.style.top = e.clientY + 'px';
-  setTimeout(() => {
-    ring.style.left = e.clientX + 'px';
-    ring.style.top = e.clientY + 'px';
-  }, 80);
-});
-document.querySelectorAll('button, .prize-card, .plan-card, .badge').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cursor.style.width = '20px'; cursor.style.height = '20px';
-    ring.style.width = '50px'; ring.style.height = '50px'; ring.style.opacity = '0.3';
-  });
-  el.addEventListener('mouseleave', () => {
-    cursor.style.width = '12px'; cursor.style.height = '12px';
-    ring.style.width = '36px'; ring.style.height = '36px'; ring.style.opacity = '0.6';
-  });
+// CURSOR
+const cdot=document.getElementById('cdot'),cring=document.getElementById('cring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cdot.style.left=mx+'px';cdot.style.top=my+'px';});
+(function ac(){rx+=(mx-rx)*0.11;ry+=(my-ry)*0.11;cring.style.left=rx+'px';cring.style.top=ry+'px';requestAnimationFrame(ac);})();
+
+// NAV
+window.addEventListener('scroll',()=>document.getElementById('nav').classList.toggle('scrolled',scrollY>80));
+
+// BUBBLES
+const blEl=document.getElementById('bl');
+function mkB(){const b=document.createElement('div');b.className='bub';const s=Math.random()*52+8;b.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}vw;animation-duration:${Math.random()*10+8}s;animation-delay:${Math.random()*5}s;--d:${(Math.random()-.5)*160}px`;blEl.appendChild(b);setTimeout(()=>b.remove(),20000);}
+for(let i=0;i<20;i++)mkB();setInterval(mkB,900);
+
+// CLICK FX
+document.addEventListener('click',e=>{
+  const s=document.createElement('div');s.className='sfx';
+  s.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;font-size:${11+Math.random()*9}px;color:rgba(56,182,232,${0.5+Math.random()*.5})`;
+  s.textContent=['·','○','◦','∘'][Math.floor(Math.random()*4)];
+  document.body.appendChild(s);setTimeout(()=>s.remove(),650);
 });
 
-// ===================== SPARKLES =====================
-const sparklesContainer = document.getElementById('sparkles-container');
-const sparkleSymbols = ['✦', '✧', '⋆', '·', '✨'];
-function createSparkle() {
-  const s = document.createElement('div');
-  s.className = 'sparkle';
-  s.textContent = sparkleSymbols[Math.floor(Math.random() * sparkleSymbols.length)];
-  s.style.cssText = `left:${Math.random()*100}%;font-size:${0.5+Math.random()}rem;color:rgba(201,168,76,${0.2+Math.random()*0.4});animation-duration:${5+Math.random()*5}s;animation-delay:${Math.random()*4}s;`;
-  sparklesContainer.appendChild(s);
-  setTimeout(() => s.remove(), 12000);
+// MARQUEE
+const items=['Piscine à vagues','Toboggans extrêmes','Bassin familial','Cafétéria','Boutique','Aqua Extreme','Mini Aqua Land','Tornado Twist','Plage tropicale','Zone ados'];
+const mt=document.getElementById('mt');
+[...items,...items,...items,...items].forEach(t=>{mt.innerHTML+=`<span class="m-item">${t}<span class="m-dot"></span></span>`;});
+
+// TIMER
+const end=Date.now()+24*3600*1000;
+function tick(){
+  const d=Math.max(0,end-Date.now()),h=Math.floor(d/3600000),m=Math.floor((d%3600000)/60000),s=Math.floor((d%60000)/1000),p=n=>String(n).padStart(2,'0');
+  [['th','tuh',h],['tm','tum',m],['ts','tus',s]].forEach(([id,uid,v])=>{
+    const el=document.getElementById(id),val=p(v);
+    if(el.textContent!==val){el.textContent=val;const u=document.getElementById(uid);u.classList.add('tick');setTimeout(()=>u.classList.remove('tick'),280);}
+  });
+  if(d>0)setTimeout(tick,500);
 }
-setInterval(createSparkle, 800);
+tick();
 
-// ===================== WHEEL =====================
-const prizes = [
-  { name: "Meet & Greet Cast", icon: "🎭", desc: "Rencontrez vos personnages préférés en privé — une expérience à -60%", discount: "-60%" },
-  { name: "Soirée VIP Privée", icon: "🌙", desc: "Soirée exclusive parc fermé avec dîner gastronomique à -70%", discount: "-70%" },
-  { name: "Séjour Hôtel Disney", icon: "🏨", desc: "2 nuits magiques à l'hôtel Disneyland Paris à -45%", discount: "-45%" },
-  { name: "Pass Fast-Track", icon: "🎠", desc: "Journée complète sans file d'attente pour 4 personnes à -50%", discount: "-50%" },
-  { name: "Dîner Gastronomique", icon: "🍽️", desc: "Table d'exception au restaurant du château à -35%", discount: "-35%" },
-  { name: "Avant-Première", icon: "🎬", desc: "2 places gratuites pour la prochaine avant-première mondiale Disney", discount: "Gratuit" },
-  { name: "Suite Royale", icon: "👑", desc: "Nuit dans la Suite Royale du Disneyland Hotel à -55%", discount: "-55%" },
-  { name: "Backstage Tour", icon: "🎪", desc: "Visite des coulisses secrètes du parc avec guide dédié à -40%", discount: "-40%" },
+function buyTicket(btn){
+  const orig=btn.textContent;btn.textContent='✓ Réservé — À très vite !';btn.style.background='linear-gradient(135deg,#00c896,#00a07a)';btn.style.color='white';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.color='';},3200);
+}
+
+// WHEEL
+const segs=[
+  {label:'−10%\nBoutique',bg:'#0a4f7a'},{label:'−20%\nCafétéria',bg:'#c0392b'},
+  {label:'Boisson\nOfferte',bg:'#b8860b'},{label:'−15%\nBoutique',bg:'#1a7fb5'},
+  {label:'−30%\nCafétéria',bg:'#0d2b45'},{label:'Glace\nOfferte',bg:'#1a8fa0'},
+  {label:'Bon\nCadeau',bg:'#5b2d8e'},{label:'Entrée\n2+1',bg:'#1a6b45'},
 ];
-
-const colors = [
-  ['#2A1F0A', '#C9A84C'],
-  ['#0D1A2A', '#7A9AB8'],
-  ['#1A0A2A', '#9A6AB8'],
-  ['#0A1A0A', '#6AAB7A'],
-  ['#2A0A0A', '#B85A5A'],
-  ['#1A1A0A', '#B8A84A'],
-  ['#0A1A1A', '#4A9AB8'],
-  ['#1A0A1A', '#B84A9A'],
-];
-
-const svg = document.getElementById('wheel-canvas');
-const cx = 200, cy = 200, r = 195;
-const n = prizes.length;
-const sliceAngle = 360 / n;
-
-let currentRotation = 0;
-let isSpinning = false;
-
-function buildWheel() {
-  svg.innerHTML = '';
-  // Outer decorative ring
-  const outerRing = document.createElementNS('http://www.w3.org/2000/svg','circle');
-  outerRing.setAttribute('cx', cx); outerRing.setAttribute('cy', cy);
-  outerRing.setAttribute('r', r+2); outerRing.setAttribute('fill','none');
-  outerRing.setAttribute('stroke','url(#goldGrad)'); outerRing.setAttribute('stroke-width','4');
-  
-  const defs = document.createElementNS('http://www.w3.org/2000/svg','defs');
-  const grad = document.createElementNS('http://www.w3.org/2000/svg','linearGradient');
-  grad.setAttribute('id','goldGrad'); grad.setAttribute('x1','0%'); grad.setAttribute('y1','0%');
-  grad.setAttribute('x2','100%'); grad.setAttribute('y2','100%');
-  const s1 = document.createElementNS('http://www.w3.org/2000/svg','stop');
-  s1.setAttribute('offset','0%'); s1.setAttribute('stop-color','#F0D080');
-  const s2 = document.createElementNS('http://www.w3.org/2000/svg','stop');
-  s2.setAttribute('offset','50%'); s2.setAttribute('stop-color','#8B5E00');
-  const s3 = document.createElementNS('http://www.w3.org/2000/svg','stop');
-  s3.setAttribute('offset','100%'); s3.setAttribute('stop-color','#F0D080');
-  grad.appendChild(s1); grad.appendChild(s2); grad.appendChild(s3);
-  defs.appendChild(grad);
-  svg.appendChild(defs);
-  
-  const g = document.createElementNS('http://www.w3.org/2000/svg','g');
-  g.setAttribute('id','wheel-group');
-  
-  prizes.forEach((prize, i) => {
-    const startAngle = i * sliceAngle - 90;
-    const endAngle = startAngle + sliceAngle;
-    const s = toRad(startAngle), e = toRad(endAngle);
-    const x1 = cx + r * Math.cos(s), y1 = cy + r * Math.sin(s);
-    const x2 = cx + r * Math.cos(e), y2 = cy + r * Math.sin(e);
-    
-    const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-    const d = `M${cx},${cy} L${x1},${y1} A${r},${r} 0 0,1 ${x2},${y2} Z`;
-    path.setAttribute('d', d);
-    path.setAttribute('fill', colors[i][0]);
-    path.setAttribute('stroke', colors[i][1]);
-    path.setAttribute('stroke-width', '1.5');
-    g.appendChild(path);
-    
-    // Icon
-    const midAngle = toRad(startAngle + sliceAngle / 2);
-    const iconR = r * 0.65;
-    const ix = cx + iconR * Math.cos(midAngle);
-    const iy = cy + iconR * Math.sin(midAngle);
-    const iconText = document.createElementNS('http://www.w3.org/2000/svg','text');
-    iconText.setAttribute('x', ix); iconText.setAttribute('y', iy);
-    iconText.setAttribute('text-anchor','middle');
-    iconText.setAttribute('dominant-baseline','middle');
-    iconText.setAttribute('font-size','22');
-    iconText.setAttribute('transform', `rotate(${startAngle + sliceAngle/2 + 90}, ${ix}, ${iy})`);
-    iconText.textContent = prize.icon;
-    g.appendChild(iconText);
-    
-    // Discount text
-    const textR = r * 0.82;
-    const tx = cx + textR * Math.cos(midAngle);
-    const ty = cy + textR * Math.sin(midAngle);
-    const prizeText = document.createElementNS('http://www.w3.org/2000/svg','text');
-    prizeText.setAttribute('x', tx); prizeText.setAttribute('y', ty);
-    prizeText.setAttribute('text-anchor','middle');
-    prizeText.setAttribute('dominant-baseline','middle');
-    prizeText.setAttribute('font-size','11');
-    prizeText.setAttribute('fill', colors[i][1]);
-    prizeText.setAttribute('font-family','Cinzel Decorative, serif');
-    prizeText.setAttribute('font-weight','700');
-    prizeText.setAttribute('transform', `rotate(${startAngle + sliceAngle/2 + 90}, ${tx}, ${ty})`);
-    prizeText.textContent = prize.discount;
-    g.appendChild(prizeText);
-    
-    // Separator dots
-    for (let d = 0; d < 3; d++) {
-      const dotAngle = toRad(startAngle + (d+1) * sliceAngle / 4);
-      const dotR = r * 0.95;
-      const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
-      dot.setAttribute('cx', cx + dotR * Math.cos(dotAngle));
-      dot.setAttribute('cy', cy + dotR * Math.sin(dotAngle));
-      dot.setAttribute('r','2');
-      dot.setAttribute('fill', colors[i][1]);
-      dot.setAttribute('opacity','0.5');
-      g.appendChild(dot);
-    }
+const wc=document.getElementById('wheelCanvas'),ctx=wc.getContext('2d');
+const cw=wc.width/2,wr=cw-5;
+let wA=0,wSpin=false;
+function drawW(a){
+  ctx.clearRect(0,0,wc.width,wc.height);
+  const seg=(2*Math.PI)/segs.length;
+  segs.forEach((s,i)=>{
+    const st=a+i*seg,en=st+seg;
+    ctx.beginPath();ctx.moveTo(cw,cw);ctx.arc(cw,cw,wr,st,en);ctx.closePath();
+    ctx.fillStyle=s.bg;ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.save();ctx.translate(cw,cw);ctx.rotate(st+seg/2);ctx.textAlign='right';
+    ctx.fillStyle='rgba(255,255,255,0.88)';ctx.font='600 10.5px DM Sans';
+    s.label.split('\n').forEach((ln,li,arr)=>{ctx.fillText(ln,wr-18,(li-(arr.length-1)/2)*15);});
+    ctx.restore();
   });
-  
-  svg.appendChild(g);
-  svg.appendChild(outerRing);
+  ctx.beginPath();ctx.arc(cw,cw,wr,0,2*Math.PI);ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=4;ctx.stroke();
+  const g=ctx.createRadialGradient(cw-4,cw-4,2,cw,cw,20);g.addColorStop(0,'#e8f4fd');g.addColorStop(1,'#8ec8e0');
+  ctx.beginPath();ctx.arc(cw,cw,20,0,2*Math.PI);ctx.fillStyle=g;ctx.fill();ctx.strokeStyle='rgba(255,255,255,0.4)';ctx.lineWidth=1.5;ctx.stroke();
 }
+drawW(wA);
 
-function toRad(deg) { return deg * Math.PI / 180; }
-
-function spinWheel() {
-  if (isSpinning) return;
-  isSpinning = true;
-  const btn = document.getElementById('spin-btn');
-  btn.disabled = true;
-  
-  const winnerIndex = Math.floor(Math.random() * prizes.length);
-  const extraSpins = 5 + Math.floor(Math.random() * 4);
-  const targetAngle = 360 * extraSpins + (360 - winnerIndex * sliceAngle - sliceAngle / 2);
-  const totalRotation = currentRotation + targetAngle;
-  const duration = 4000 + Math.random() * 1500;
-  
-  const wheelGroup = document.getElementById('wheel-group');
-  const startTime = performance.now();
-  const startRot = currentRotation;
-  
-  function easeOut(t) { return 1 - Math.pow(1 - t, 4); }
-  
-  function animate(now) {
-    const elapsed = now - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-    const rot = startRot + (totalRotation - startRot) * easeOut(progress);
-    wheelGroup.setAttribute('transform', `rotate(${rot}, 200, 200)`);
-    
-    if (progress < 1) {
-      requestAnimationFrame(animate);
-    } else {
-      currentRotation = totalRotation % 360;
-      isSpinning = false;
-      btn.disabled = false;
-      showPrize(prizes[winnerIndex]);
-    }
+function spinWheel(){
+  if(wSpin)return;wSpin=true;document.getElementById('spinBtn').disabled=true;
+  document.getElementById('prizeCard').className='prize-card';document.getElementById('prizeCard').textContent='La roue tourne…';
+  const spins=(Math.random()*6+6)*2*Math.PI,target=wA+spins,dur=4500,st=performance.now(),from=wA;
+  function af(now){
+    const t=Math.min((now-st)/dur,1),ease=1-Math.pow(1-t,4);
+    wA=from+(target-from)*ease;drawW(wA);
+    if(t<1){requestAnimationFrame(af);return;}
+    wA=target%(2*Math.PI);wSpin=false;document.getElementById('spinBtn').disabled=false;
+    const seg=(2*Math.PI)/segs.length,norm=((-wA-Math.PI/2)%(2*Math.PI)+2*Math.PI)%(2*Math.PI),idx=Math.floor(norm/seg)%segs.length;
+    const card=document.getElementById('prizeCard');card.className='prize-card active';
+    card.textContent='🏆 Vous gagnez : '+segs[idx].label.replace('\n',' ')+'  — Bon à présenter à l\'entrée';
   }
-  requestAnimationFrame(animate);
+  requestAnimationFrame(af);
 }
 
-function showPrize(prize) {
-  document.getElementById('modal-icon').textContent = prize.icon;
-  document.getElementById('modal-prize-name').textContent = prize.name;
-  document.getElementById('modal-prize-desc').textContent = `${prize.desc}`;
-  document.getElementById('modal-overlay').classList.add('active');
-  createConfetti();
-  startTimer();
-}
+// BOT
+let botOpen=false;
+const reps={prix:'🎟️ Le billet d\'ouverture est à 19 € (−50% sur 38 €). Offre valable 24h, places illimitées.',tarif:'🎟️ Le billet d\'ouverture est à 19 € (−50% sur 38 €). Offre valable 24h.',billet:'🎟️ Cliquez sur le bouton "Réserver" — simple et rapide.',toboggan:'🎢 8 toboggans au total, du familial à l\'Aqua Extreme (80m, ~60km/h). De quoi satisfaire tous les niveaux.',vague:'🌊 Notre piscine à vagues génère des vagues jusqu\'à 1,5m — sensations de surf garanties.',roue:'🎰 La roue des réductions est accessible à tous. Réductions boutique, cafétéria ou cadeaux offerts.',boutique:'🛍️ Maillots, serviettes, lunettes et souvenirs exclusifs. Des réductions disponibles via la roue des cadeaux.',restaurant:'🍽️ La cafétéria est ouverte de 10h à 19h — burgers, salades, glaces et smoothies.',cafeteria:'🍽️ La cafétéria est ouverte de 10h à 19h — burgers, salades, glaces et smoothies.',age:'👤 Ouvert à partir de 3 ans. Chaque attraction a ses recommandations d\'âge affichées à l\'entrée.',horaire:'⏰ Ouvert de 9h30 à 19h30 tous les jours pendant la saison estivale.',parking:'🚗 Parking gratuit sur place. Accès également en transports en commun.'};
 
-function closeModal() {
-  document.getElementById('modal-overlay').classList.remove('active');
-}
+function toggleBot(){botOpen=!botOpen;document.getElementById('fishPanel').className='fish-panel'+(botOpen?' open':'');if(botOpen){document.getElementById('notif').style.display='none';document.getElementById('ci').focus();}}
+function send(){const inp=document.getElementById('ci'),txt=inp.value.trim();if(!txt)return;inp.value='';addMsg(txt,'user');document.getElementById('td').style.display='block';setTimeout(()=>{document.getElementById('td').style.display='none';addMsg(getR(txt.toLowerCase()),'bot');},700+Math.random()*600);}
+function getR(t){for(const[k,v]of Object.entries(reps))if(t.includes(k))return v;if(t.match(/bonjour|salut|hello/))return'Bonjour ! Comment puis-je vous aider ?';if(t.match(/merci|super|parfait/))return'Avec plaisir ! À bientôt dans le parc 🌊';return'Je peux vous renseigner sur les tarifs, toboggans, piscine à vagues, horaires ou restauration. Que souhaitez-vous savoir ?';}
+function addMsg(t,type){const d=document.createElement('div');d.className=`msg ${type}`;d.textContent=t;const c=document.getElementById('msgs');c.appendChild(d);c.scrollTop=c.scrollHeight;}
 
-function claimPrize() {
-  closeModal();
-  setTimeout(() => openUpgradeModal(), 500);
-}
-
-function openUpgradeModal() {
-  document.getElementById('upgrade-modal').classList.add('active');
-}
-
-// Confetti
-function createConfetti() {
-  const colors = ['#C9A84C','#F0D080','#A8B8C8','#D8E4F0','#fff','#FF6B9D','#C084FC'];
-  for (let i = 0; i < 80; i++) {
-    setTimeout(() => {
-      const c = document.createElement('div');
-      c.className = 'confetti-piece';
-      c.style.cssText = `
-        left:${Math.random()*100}vw;
-        top:-10px;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        transform:rotate(${Math.random()*360}deg);
-        animation-duration:${2+Math.random()*2}s;
-        animation-delay:${Math.random()*0.5}s;
-        width:${4+Math.random()*8}px;
-        height:${4+Math.random()*8}px;
-        border-radius:${Math.random()>0.5?'50%':'2px'};
-      `;
-      document.body.appendChild(c);
-      setTimeout(() => c.remove(), 4000);
-    }, i * 20);
-  }
-}
-
-// Countdown timer
-let timerInterval;
-function startTimer() {
-  let h = 23, m = 59, s = 0;
-  clearInterval(timerInterval);
-  timerInterval = setInterval(() => {
-    s--;
-    if (s < 0) { s = 59; m--; }
-    if (m < 0) { m = 59; h--; }
-    if (h < 0) { clearInterval(timerInterval); return; }
-    document.getElementById('timer-h').textContent = String(h).padStart(2,'0');
-    document.getElementById('timer-m').textContent = String(m).padStart(2,'0');
-    document.getElementById('timer-s').textContent = String(s).padStart(2,'0');
-  }, 1000);
-}
-
-// Close modal on overlay click
-document.getElementById('modal-overlay').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-document.getElementById('upgrade-modal').addEventListener('click', function(e) {
-  if (e.target === this) this.classList.remove('active');
-});
-
-// Init
-buildWheel();
+// SR
+const srEls=document.querySelectorAll('.sr');
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.08}).observe(...srEls)||srEls.forEach(el=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');}),{threshold:0.08}).observe(el));
 </script>
 </body>
 </html>
